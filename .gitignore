@@ -9,3 +9,5 @@ python/.venv-win/**
 requirements.txt
 *.exe
 *.out
+*.yml
+*.dSYM
