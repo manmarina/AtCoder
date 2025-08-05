@@ -1,13 +1,21 @@
-# すべてを無視（ルート以下のすべてのファイル・フォルダ）
+# すべてを無視
 *
 
-# .gitignore自身とREADMEなどは追跡したい場合（任意）
+# .gitignore自身とREADMEなどは追跡
 !.gitignore
 !README.md
 
-# .pyと.cファイルだけを追跡したい場合
+# .pyと.cファイルは追跡許可
 !*.py
 !*.c
 
-# ディレクトリ構造も明示的に許可（これが重要！）
+# python/.venv フォルダはすべて無視
+python/.venv-mac/
+python/.venv-mac/**
+python/.venv-linux/
+python/.venv-linux/**
+python/.venv-win/
+python/.venv-win/**
+
+# ディレクトリ構造を維持（深い階層の .py/.c を許可するため）
 !*/
