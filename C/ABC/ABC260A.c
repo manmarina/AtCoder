@@ -2,19 +2,27 @@
 
 int main()
 {
-    char S[4];
+    char S[4]; // 3文字 + 終端文字
     scanf("%s", S);
 
-    if (S[0] == S[1] && S[1] == S[2])
-        puts("-1");
-    else if (S[0] == S[1] && S[1] != S[2])
-        printf("%c\n", S[2]);
-    else if (S[0] != S[1] && S[1] == S[2])
-        printf("%c\n", S[0]);
-    else if (S[0] == S[2] && S[2] != S[1])
-        printf("%c\n", S[1]);
-    else
-        printf("%c\n", S[0]);
+    for (int i = 0; i < 3; i++)
+    {
+        int count = 0;
+        for (int j = 0; j < 3; j++)
+        {
+            if (S[i] == S[j])
+            {
+                count++;
+            }
+        }
+        if (count == 1)
+        {
+            putchar(S[i]);
+            putchar('\n');
+            return 0;
+        }
+    }
 
+    printf("-1\n");
     return 0;
 }

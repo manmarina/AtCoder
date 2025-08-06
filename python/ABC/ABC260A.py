@@ -1,12 +1,8 @@
 S = input()
 
-if S[0] == S[1] == S[2]:
-    print(-1)
-elif S[0] == S[1] != S[2]:
-    print(S[2])
-elif S[0] != S[1] == S[2]:
-    print(S[0])
-elif S[0] == S[2] != S[1]:
-    print(S[1])
+for c in S:
+    if S.count(c) == 1:
+        print(c)
+        break
 else:
-    print(S[0])
+    print(-1)
