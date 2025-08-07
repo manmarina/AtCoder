@@ -1,15 +1,15 @@
 A, B, C, D, E, F, X = map(int, input().split())
 
 
-def distance(A, B, C):
-    rest = X
+def distance(run, speed, rest):
+    total_time = X
     dist = 0
-    while rest > 0:
-        if rest >= A:
-            dist += A * B
-            rest -= A + C
+    while total_time > 0:
+        if total_time >= run:
+            dist += run * speed
+            total_time -= run + rest
         else:
-            dist += B * rest
+            dist += speed * total_time
             break
     return dist
 
