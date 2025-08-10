@@ -1,9 +1,14 @@
+# 入力の受け取り
 N, K, A = map(int, input().split())
 
-box1 = [i for i in range(A, N+1)]
-box2 = [i for i in range(1, N+1)]
+# (A+K-1)をNで割った余り
+ans = (A+K-1) % N
 
-for i in range(1000//N + 1):
-    box1 += box2
-
-print(box1[K-1])
+# ansが「0」ならば
+if ans == 0:
+    # Nを出力
+    print(N)
+# そうでないなら(「0」以外なら)
+else:
+    # ansを出力
+    print(ans)
