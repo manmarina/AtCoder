@@ -4,9 +4,10 @@ a = []
 for i in range(N):
     a.append(list(map(int, input().split())))
 
-s = []
+answer = []
 for i in range(Q):
-    s.append(list(map(int, input().split())))
+    s, t = map(int, input().split())
+    answer.append(a[s - 1][t])
 
-for i in range(len(s)):
-    print(a[s[i][0] - 1][s[i][1]])
+for i in range(Q):
+    print(answer[i])
