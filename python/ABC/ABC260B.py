@@ -2,42 +2,45 @@ N, X, Y, Z = map(int, input().split())
 A = list(map(int, input().split()))
 B = list(map(int, input().split()))
 
-# 合格者リスト
-passed = []
+# (優先度) 得点降順・同点は受験番号昇順で並べたいので (-score, id) でソート
+math = [(-A[i], i + 1) for i in range(N)]
+eng = [(-B[i], i + 1) for i in range(N)]
+both = [(-(A[i] + B[i]), i + 1) for i in range(N)]
 
-# 数学の点数と受験番号のリスト
-math = []
-for i in range(N):
-    math.append([A[i], -(i + 1)])
-math.sort(reverse=True)
+math.sort()
+eng.sort()
+both.sort()
 
-for i in range(X):
-    passed.append(-math[i][1])
-# print(passed)
+picked = set()
 
-# 英語の点数と受験番号のリスト
-english = []
-for i in range(N):
-    if i + 1 not in passed:
-        english.append([B[i], -(i + 1)])
-english.sort(reverse=True)
+# 数学から X 人
+cnt = 0
+for _, idx in math:
+    if cnt == X:
+        break
+    if idx not in picked:
+        picked.add(idx)
+        cnt += 1
 
-for i in range(Y):
-    passed.append(-english[i][1])
-# print(passed)
+# 英語から Y 人
+cnt = 0
+for _, idx in eng:
+    if cnt == Y:
+        break
+    if idx not in picked:
+        picked.add(idx)
+        cnt += 1
 
-# 数学と英語の合計点数と受験番号のリスト
-both = []
-for i in range(N):
-    if i + 1 not in passed:
-        both.append([A[i] + B[i], -(i + 1)])
-both.sort(reverse=True)
+# 合計から Z 人
+cnt = 0
+for _, idx in both:
+    if cnt == Z:
+        break
+    if idx not in picked:
+        picked.add(idx)
+        cnt += 1
 
-for i in range(Z):
-    passed.append(-both[i][1])
-# print(passed)
-
-# 合格者の出力
-passed.sort()
-for i in passed:
-    print(i)
+# 受験番号の昇順で出力
+picked = list(picked)
+picked.sort()
+print(*picked, sep="\n")
