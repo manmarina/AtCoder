@@ -1,46 +1,50 @@
+class Entry:
+    def __init__(self, score, id):
+        self.score = score
+        self.id = id
+
+    def sort_key(self):
+        # 得点降順・同点はid昇順
+        return (-self.score, self.id)
+
+
 N, X, Y, Z = map(int, input().split())
 A = list(map(int, input().split()))
 B = list(map(int, input().split()))
 
-# (優先度) 得点降順・同点は受験番号昇順で並べたいので (-score, id) でソート
-math = [(-A[i], i + 1) for i in range(N)]
-eng = [(-B[i], i + 1) for i in range(N)]
-both = [(-(A[i] + B[i]), i + 1) for i in range(N)]
+math = [Entry(A[i], i + 1) for i in range(N)]
+eng = [Entry(B[i], i + 1) for i in range(N)]
+both = [Entry(A[i] + B[i], i + 1) for i in range(N)]
 
-math.sort()
-eng.sort()
-both.sort()
+math.sort(key=lambda e: e.sort_key())
+eng.sort(key=lambda e: e.sort_key())
+both.sort(key=lambda e: e.sort_key())
 
-picked = set()
+ans = []
 
-# 数学から X 人
 cnt = 0
-for _, idx in math:
+for e in math:
     if cnt == X:
         break
-    if idx not in picked:
-        picked.add(idx)
+    if e.id not in ans:
+        ans.append(e.id)
         cnt += 1
 
-# 英語から Y 人
 cnt = 0
-for _, idx in eng:
+for e in eng:
     if cnt == Y:
         break
-    if idx not in picked:
-        picked.add(idx)
+    if e.id not in ans:
+        ans.append(e.id)
         cnt += 1
 
-# 合計から Z 人
 cnt = 0
-for _, idx in both:
+for e in both:
     if cnt == Z:
         break
-    if idx not in picked:
-        picked.add(idx)
+    if e.id not in ans:
+        ans.append(e.id)
         cnt += 1
 
-# 受験番号の昇順で出力
-picked = list(picked)
-picked.sort()
-print(*picked, sep="\n")
+ans.sort()
+print(*ans, sep='\n')
