@@ -1,15 +1,14 @@
 S = input()
 
-check = "AC"
-if S[0] != 'A':
-    check = "WA"
-elif S[2:-1].count('C') != 1:
-    check = "WA"
-else:
-    for i in range(len(S)):
-        if i != 0 and i != S.index('C'):
-            if not S[i].islower():
-                check = "WA"
-                break
 
-print(check)
+def isAC(S):
+    if S[0] != 'A':
+        return False
+    if S[2:-1].count('C') != 1:
+        return False
+    if sum(map(str.isupper, S)) != 2:
+        return False
+    return True
+
+
+print("AC" if isAC(S) else "WA")
