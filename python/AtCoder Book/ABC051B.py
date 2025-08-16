@@ -1,18 +1,10 @@
-import itertools
-
 K, S = map(int, input().split())
 
+ans = 0
+for x in range(K + 1):
+    y_min = max(0, S - x - K)
+    y_max = min(K, S - x)
+    if y_min <= y_max:
+        ans += (y_max - y_min + 1)
 
-def sum_of_3_integers(limit, total):
-    three_integers = itertools.product(
-        range(limit + 1), repeat=3)
-
-    count = 0
-    for three_integer in three_integers:
-        if sum(three_integer) == total:
-            count += 1
-
-    return count
-
-
-print(sum_of_3_integers(K, S))
+print(ans)
