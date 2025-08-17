@@ -1,49 +1,38 @@
 N, M = map(int, input().split())
-sc = [tuple(map(int, input().split())) for _ in range(M)]
-
-# print(1, sc)
+sc = [tuple(map(int, input().split())) for _ in range((M))]
 
 
-def is_able_number(N, conditions_list):
-    conditions = set(_ for _ in conditions_list)
-    # print(2, conditions)
-
-    first_digit = []
-    for condition in conditions:
-        # 矛盾チェック（N=1以外の時、先頭桁が0はNG
-        if condition == (1, 0) and N != 1:
+def check_sc(N, sc):
+    # 同じ桁に違う値が来たら即終了
+    ans = [None] * N
+    for s, c in sc:
+        s -= 1
+        if ans[s] is None:
+            ans[s] = c
+        elif ans[s] != c:
             return None
-        first_digit.append(condition[0])
 
-    # print(3, first_digit)
-
-    # 矛盾チェック（同じ桁に違う値が来たらNG）
-    if len(first_digit) != len(set(first_digit)):
+    # 1桁でない時、1桁目が0なら即終了
+    if N != 1 and ans[0] == 0:
         return None
 
-    return conditions
+    return ans
 
 
-def make_integer(digit, conditions):
-    integer_list = [0 for i in range(digit)]
-    for condition in conditions:
-        integer_list[condition[0] - 1] = condition[1]
+def convert_to_int(N, ans):
+    # 1桁目のNoneを1に変換（N=1のときは0)
+    if ans[0] is None:
+        ans[0] = 0 if N == 1 else 1
+    # その他のNoneを0に変換
+    for i in range(N):
+        if ans[i] is None:
+            ans[i] = 0
 
-    # 1桁目が0なら1に更新
-    if integer_list[0] == 0 and N != 1:
-        integer_list[0] = 1
-    # print(5, integer_list)
-
-    integer = 0
-    for d in integer_list:
-        integer = integer * 10 + d
-    return integer
+    return int(''.join(map(str, ans)))
 
 
-conditions = is_able_number(N, sc)
-# print(4, conditions)
-
-if conditions is None:
+ans = check_sc(N, sc)
+if ans is None:
     print(-1)
 else:
-    print(make_integer(N, conditions))
+    print(convert_to_int(N, ans))
