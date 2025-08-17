@@ -1,35 +1,28 @@
 N, M = map(int, input().split())
-sc = []
-for i in range(M):
-    sc.append(list(map(int, input().split())))
+sc = [tuple(map(int, input().split())) for _ in range(M)]
 
+# 各桁の指定値を管理（未指定は None）
+digits = [None] * N
 
-def is_able_number(conditions_list):
-    conditions = set()
-    for condition in conditions_list:
-        conditions.add(tuple(condition))
-    first_digit = []
-    for condition in conditions:
-        if condition == (1, 0) and len(conditions) != 1:
-            return None
-        first_digit.append(condition[0])
-    if len(first_digit) != len(set(first_digit)):
-        return None
-    return conditions
+# 矛盾チェック（同じ桁に違う値が来たらNG）
+for s, c in sc:
+    idx = s - 1
+    if digits[idx] is None:
+        digits[idx] = c
+    elif digits[idx] != c:
+        print(-1)
+        exit()
 
-
-def make_integer(digit, conditions):
-    integer_list = [0 for i in range(digit)]
-    for condition in conditions:
-        integer_list[condition[0] - 1] = condition[1]
-    integer = 0
-    for d in integer_list:
-        integer = integer * 10 + d
-    return integer
-
-
-conditions = is_able_number(sc)
-if conditions is None:
+# 先頭桁チェック（N>1 のときは 0 始まりはNG）
+if N > 1 and digits[0] == 0:
     print(-1)
-else:
-    print(make_integer(N, conditions))
+    exit()
+
+# 最小値で埋める
+if digits[0] is None:
+    digits[0] = 0 if N == 1 else 1
+for i in range(1, N):
+    if digits[i] is None:
+        digits[i] = 0
+
+print(int("".join(map(str, digits))))
