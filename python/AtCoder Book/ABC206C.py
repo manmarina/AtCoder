@@ -1,9 +1,15 @@
-from collections import Counter
+from collections import defaultdict
 
 N = int(input())
 A = list(map(int, input().split()))
 
-cnt = Counter(A)  # 連想配列：値→出現回数
+cnt = defaultdict(int)
+for a in A:
+    cnt[a] += 1
+
 total = N * (N - 1) // 2
-same = sum(c * (c - 1) // 2 for c in cnt.values())
+same = 0
+for c in cnt.values():
+    same += c * (c - 1) // 2
+
 print(total - same)
