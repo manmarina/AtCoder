@@ -1,35 +1,26 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-i = 0
-answer = []
-while i < N:
-    flag = 0
-    j = i + 1
-    while j < N:
-        if flag == 0:  # 初期値なら
-            if A[j - 1] < A[j]:  # 増加なら
-                flag = 1
-            elif A[j - 1] > A[j]:  # 減少なら
-                flag = 2
-            j += 1
-        elif flag == 1:  # 増加なら
-            if A[j - 1] > A[j]:  # 逆行したら
-                flag = 0
-                answer.append(A[i:j])
-                i = j
-                break
-            j += 1
-        elif flag == 2:  # 減少なら
-            if A[j - 1] < A[j]:  # 逆行したら
-                flag = 0
-                answer.append(A[i:j])
-                i = j
-                break
-            j += 1
-    else:
-        temp = i
-        i = j
-answer.append(A[temp:j])
+ans = []
+start = 0
+dir = 0  # 0: 未確定, +1: 非減少, -1: 非増加
 
-print(len(answer))
+for i in range(1, N):
+    if dir == 0:
+        if A[i] > A[i - 1]:
+            dir = +1
+        elif A[i] < A[i - 1]:
+            dir = -1
+    elif dir == +1:
+        if A[i] < A[i - 1]:
+            ans.append(A[start:i])  # [start .. i-1]
+            start = i
+            dir = 0
+    else:  # dir == -1
+        if A[i] > A[i - 1]:
+            ans.append(A[start:i])  # [start .. i-1]
+            start = i
+            dir = 0
+
+ans.append(A[start:N])  # 最後の区間
+print(len(ans))
