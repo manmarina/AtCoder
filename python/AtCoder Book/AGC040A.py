@@ -1,48 +1,17 @@
-S = input()
+S = input().strip()
+N = len(S)
 
+L = [0] * (N + 1)
+for i, c in enumerate(S):
+    if c == '<':
+        L[i + 1] = L[i] + 1
+print(L)
 
-def calc_num(cnt):
-    ans = 0
-    for i in range(1, cnt + 1):
-        ans += i
-    return ans
+R = [0] * (N + 1)
+for i in range(N - 1, -1, -1):
+    if S[i] == '>':
+        R[i] = R[i + 1] + 1
+print(R)
+print(list(map(max, zip(L, R))))
 
-
-i = 0
-cut = []
-while i < len(S):
-    j = i + 1
-    while j < len(S) and S[i] == S[j]:
-        j += 1
-    cut.append(S[i:j])
-    i = j
-
-# print(cut)
-
-answer = []
-i = 0
-while i < len(cut):
-    # 最初が＞のとき
-    if cut[i][0] == '>':
-        cnt = calc_num(len(cut[i]))
-        answer.append((cnt,))
-        i += 1
-    # 最後が＜のとき
-    elif i == len(cut) - 1 and cut[i][0] == '<':
-        cnt = calc_num(len(cut[i]))
-        answer.append((cnt,))
-        i += 1
-    # 通常の時
-    else:
-        cnt_1 = len(cut[i])
-        cnt_2 = len(cut[i + 1])
-        if cnt_1 < cnt_2:
-            cnt_1 = calc_num(cnt_1 - 1)
-            cnt_2 = calc_num(cnt_2)
-        else:
-            cnt_1 = calc_num(cnt_1)
-            cnt_2 = calc_num(cnt_2 - 1)
-        answer.append((cnt_1, cnt_2))
-        i += 2
-
-print(sum(map(sum, answer)))
+print(sum(max(L[i], R[i]) for i in range(N + 1)))
