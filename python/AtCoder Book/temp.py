@@ -1,12 +1,8 @@
 S = input().strip()
 
-ans = float('inf')
+ans = len(S)
 
-for code in range(26):
-    c = chr(ord('a') + code)
-    if c not in S:
-        continue  # この文字を目標にしても不可能
-
+for c in set(S):
     # 「c ではない」連続区間の最大長を求める
     max_run = 0
     cur = 0
