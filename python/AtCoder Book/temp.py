@@ -1,19 +1,15 @@
-S = input().strip()
+N = int(input())
+A = list(map(int, input().split()))
 
-ans = len(S)
+# 子リスト（部下リスト）
+children = [[] for _ in range(N)]
 
-for c in set(S):
-    # 「c ではない」連続区間の最大長を求める
-    max_run = 0
-    cur = 0
-    for ch in S:
-        if ch == c:
-            max_run = max(max_run, cur)
-            cur = 0
-        else:
-            cur += 1
-    max_run = max(max_run, cur)  # 末尾が非cで終わる場合を反映
+# 社員 2..N の上司が A[i] なので辺を張る
+for i, boss in enumerate(A, start=2):  # i=社員番号
+    children[boss - 1].append(i - 1)       # boss, i は 0-index に変換
 
-    ans = min(ans, max_run)
+# 部下人数を数える
+for i in range(N):
+    print(len(children[i]))
 
-print(ans)
+print(children)

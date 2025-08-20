@@ -1,16 +1,15 @@
-from collections import defaultdict
 N = int(input())
 A = list(map(int, input().split()))
 
-dd = defaultdict(int)
-for a in A:
-    a -= 1
-    dd[a] += 1
+# 子リスト（部下リスト）
+children = [[] for _ in range(N)]
 
-# print(dd)
+# 社員 2..N の上司が A[i] なので辺を張る
+for i, boss in enumerate(A, start=2):  # i=社員番号
+    children[boss - 1].append(i - 1)       # boss, i は 0-index に変換
 
+# 部下人数を数える
 for i in range(N):
-    if i in dd:
-        print(dd[i])
-    else:
-        print(0)
+    print(len(children[i]))
+
+# print(children)
