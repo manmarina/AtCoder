@@ -11,17 +11,13 @@ def calc_ev(n):
     return ev
 
 
+mx = 0
 for i, v in enumerate(p, 1):
     ev = calc_ev(v)
     cs[i] = cs[i - 1] + ev
-
-mx = 0
-for i in range(len(p) - K + 1):
-    l = i
-    r = i + K
-    temp = cs[r] - cs[l]
-    mx = max(mx, temp)
-
+    if i > K - 1:
+        temp = cs[i] - cs[i - K]
+        mx = max(mx, temp)
 
 # print(cs)
 print(mx)
