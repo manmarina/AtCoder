@@ -18,6 +18,7 @@ col = list(map(int, input().split()))
 # print()
 # print("col", col)
 
+query = []
 for i in range(Q):
     t, x, *y = map(int, input().split())
 
@@ -28,10 +29,13 @@ for i in range(Q):
 
     x -= 1
 
-    print(col[x])
+    query.append(col[x])
 
     if t == 1:
         for v in G[x]:
             col[v] = col[x]
     else:
         col[x] = y[0]
+
+# print()
+print(*query, sep='\n')
