@@ -1,11 +1,11 @@
 N = int(input())
 
 a = [int(input()) for i in range(N)]
-print(a)
+# print(a)
 
 count = 1
 i = 0
-visited = []
+visited = set()
 while 1:
     if i in visited:
         print(-1)
@@ -13,6 +13,6 @@ while 1:
     if a[i] == 2:
         print(count)
         break
-    visited.append(i)
+    visited.add(i)
     i = a[i] - 1
     count += 1
