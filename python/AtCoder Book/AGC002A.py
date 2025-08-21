@@ -1,13 +1,9 @@
 a, b = map(int, input().split())
 
-if a == 0 or b == 0:
+if a <= 0 <= b:                  # 区間に 0 が含まれる
     print("Zero")
-elif a > 0:
+elif a > 0:                      # すべて正
     print("Positive")
-elif b < 0:
-    if (-a - -b) % 2 == 0:
-        print("Negative")
-    else:
-        print("Positive")
-else:
-    print("Zero")
+else:                            # すべて負（b < 0）
+    n = b - a + 1                # 要素数
+    print("Negative" if n % 2 == 1 else "Positive")
