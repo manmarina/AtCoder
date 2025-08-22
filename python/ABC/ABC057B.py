@@ -1,19 +1,15 @@
 N, M = map(int, input().split())
-ab = [list(map(int, input().split())) for i in range(N)]
-cd = [list(map(int, input().split())) for i in range(M)]
+students = [tuple(map(int, input().split())) for _ in range(N)]
+checks = [tuple(map(int, input().split())) for _ in range(M)]
 
-# print(ab)
-# print(cd)
-
-
-dl = []
-for x1, y1 in ab:
-    temp = []
-    for x2, y2 in cd:
-        dis = abs(x1 - x2) + abs(y1 - y2)
-        temp.append(dis)
-    dl.append(temp)
-
-# print(dl)
-for i in dl:
-    print(i.index(min(i)) + 1)
+for x, y in students:
+    best_j = 1
+    ax, ay = checks[0]
+    best_d = abs(x - ax) + abs(y - ay)
+    for j in range(1, M):
+        ax, ay = checks[j]
+        d = abs(x - ax) + abs(y - ay)
+        if d < best_d:  # タイは更新しない（小さいjを保持）
+            best_d = d
+            best_j = j + 1  # 1-index
+    print(best_j)
