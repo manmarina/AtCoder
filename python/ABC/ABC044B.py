@@ -1,9 +1,5 @@
-w = input()
+from collections import Counter
 
-sw = set(w)
-for i in sw:
-    if w.count(i) % 2 == 1:
-        print("No")
-        break
-else:
-    print("Yes")
+w = input()
+cnt = Counter(w)
+print("Yes" if all(v % 2 == 0 for v in cnt.values()) else "No")
