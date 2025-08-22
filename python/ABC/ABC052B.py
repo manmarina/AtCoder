@@ -1,13 +1,14 @@
-N = int(input())
-S = input()
+N = int(input().strip())
+S = input().strip()
 
-cs = [0] * (N + 1)
-for i, v in enumerate(S, 1):
-    if v == 'I':
-        temp = 1
-    else:  # v == 'D'
-        temp = -1
-    cs[i] = cs[i - 1] + temp
+x = 0
+ans = 0  # 初期状態の 0 を含める
+for ch in S:
+    if ch == 'I':
+        x += 1
+    else:  # 'D'
+        x -= 1
+    if x > ans:
+        ans = x
 
-# print(cs)
-print(max(cs))
+print(ans)
