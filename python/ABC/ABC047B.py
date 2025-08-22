@@ -1,30 +1,19 @@
 W, H, N = map(int, input().split())
 
-pl = [[1 for i in range(W)] for j in range(H)]
-xya = []
-for i in range(N):
+L, R = 0, W
+B, T = 0, H
+
+for _ in range(N):
     x, y, a = map(int, input().split())
-    xya.append((x, y, a))
-# print(pl)
-# print(xya)
+    if a == 1:
+        L = max(L, x)
+    elif a == 2:
+        R = min(R, x)
+    elif a == 3:
+        B = max(B, y)
+    else:  # a == 4
+        T = min(T, y)
 
-for i in xya:
-    if i[2] == 1:
-        for j in pl:
-            for k in range(i[0]):
-                j[k] = 0
-    elif i[2] == 2:
-        for j in pl:
-            for k in range(W - 1, i[0] - 1, -1):
-                j[k] = 0
-    elif i[2] == 3:
-        for j in range(H - 1, H - i[1] - 1, -1):
-            for k in range(W):
-                pl[j][k] = 0
-    elif i[2] == 4:
-        for j in range(H - i[1]):
-            for k in range(W):
-                pl[j][k] = 0
-
-# print(pl)
-print(sum(map(sum, pl)))
+width = max(0, R - L)
+height = max(0, T - B)
+print(width * height)
