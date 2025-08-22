@@ -5,14 +5,14 @@ cd = [list(map(int, input().split())) for i in range(M)]
 # print(ab)
 # print(cd)
 
-temp = []
+
 dl = []
-for i in range(N):
-    for j in range(M):
-        dis = abs(ab[i][0] - cd[j][0]) + abs(ab[i][1] - cd[j][1])
+for x1, y1 in ab:
+    temp = []
+    for x2, y2 in cd:
+        dis = abs(x1 - x2) + abs(y1 - y2)
         temp.append(dis)
-    dl.append(temp.copy())
-    temp.clear()
+    dl.append(temp)
 
 # print(dl)
 for i in dl:
