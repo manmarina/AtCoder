@@ -12,15 +12,11 @@ def ceil_to_tens(n):
 
 
 menu = [A, B, C, D, E]
-ans = []
-for p in permutations(menu):
-    temp = 0
-    for i, v in enumerate(p):
-        if i == 4:
-            temp += v
-        else:
-            temp += ceil_to_tens(v)
-    else:
-        ans.append(temp)
 
-print(min(ans))
+total = sum(ceil_to_tens(v) for v in menu)
+best = max((10 - (v % 10)) % 10 for v in menu)
+
+# print(best)
+# print(total)
+
+print(total - best)
