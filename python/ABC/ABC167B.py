@@ -1,8 +1,4 @@
 A, B, C, K = map(int, input().split())
 
-if A >= K:
-    print(K)
-elif K - A <= B:
-    print(A)
-else:
-    print(A - (K - A - B))
+# 1を取れる枚数 - -1を取らされる枚数
+print(min(A, K) - max(0, K - A - B))
