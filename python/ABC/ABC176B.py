@@ -1,10 +1,3 @@
 N = input()
 
-num = 0
-for n in N:
-    num += int(n)
-
-if num % 9 == 0:
-    print("Yes")
-else:
-    print("No")
+print("Yes" if sum(map(int, N)) % 9 == 0 else "No")
