@@ -1,8 +1,6 @@
 A, B, K = map(int, input().split())
 
-if A > K:
-    print(A - K, B)
-elif K - A > B:
-    print(0, 0)
-else:
-    print(0, B - (K - A))
+A_rem = max(0, A - K)
+eat_from_B = max(0, K - A)
+B_rem = max(0, B - eat_from_B)
+print(A_rem, B_rem)
