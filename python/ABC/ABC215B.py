@@ -1,10 +1,8 @@
-from math import log2
-
 N = int(input())
 
-k = int(log2(N))
-if 2**(k + 1) <= N:
+n = 1
+k = 0
+while n * 2 <= N:
+    n *= 2
     k += 1
-if 2**k > N:
-    k -= 1
 print(k)
