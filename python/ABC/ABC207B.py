@@ -1,11 +1,8 @@
 A, B, C, D = map(int, input().split())
 
 den = C * D - B
-if den <= 0:  # 到達可能性の判断
+if den <= 0:
     print(-1)
 else:
-    x = 0
-    # 条件: A + Bx <= C*D*x になる最小の x を探す
-    while A + B * x > C * D * x:
-        x += 1
-    print(x)
+    # 0 回で既に満たす場合にも対応（A=0なら0が出る）
+    print((A + den - 1) // den)  # A // den の切り上げ除算
