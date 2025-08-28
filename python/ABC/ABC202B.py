@@ -1,0 +1,5 @@
+S = input().strip()
+# table = str.maketrans({'0': '0', '1': '1', '6': '9', '8': '8', '9': '6'})
+table = str.maketrans({'6': '9', '9': '6'})
+# print(table)
+print(S[::-1].translate(table))
