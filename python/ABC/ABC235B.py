@@ -1,9 +1,10 @@
 N = int(input())
-H = list(map(int, input().split()))
+h = list(map(int, input().split()))
 
-for i in range(1, N):
-    if H[i - 1] >= H[i]:
-        print(H[i - 1])
+ans = h[0]
+for i in range(N - 1):
+    if h[i] < h[i + 1]:
+        ans = h[i + 1]
+    else:
         break
-else:
-    print(H[i])
+print(ans)
