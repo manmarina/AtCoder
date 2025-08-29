@@ -5,48 +5,17 @@ base = [0, 0, 0, 0]
 
 P = 0
 for a in A:
-    if a == 1:
-        if base[3] == 1:
-            base[3] = 0
-            P += 1
-        if base[2] == 1:
-            base[2] = 0
-            base[3] = 1
-        if base[1] == 1:
-            base[1] = 0
-            base[2] = 1
-        base[1] = 1
-    if a == 2:
-        if base[3] == 1:
-            base[3] = 0
-            P += 1
-        if base[2] == 1:
-            base[2] = 0
-            P += 1
-        if base[1] == 1:
-            base[1] = 0
-            base[3] = 1
-        base[2] = 1
-    elif a == 3:
-        if base[3] == 1:
-            base[3] = 0
-            P += 1
-        if base[2] == 1:
-            base[2] = 0
-            P += 1
-        if base[1] == 1:
-            base[1] = 0
-            P += 1
-        base[3] = 1
-    elif a == 4:
-        if base[3] == 1:
-            base[3] = 0
-            P += 1
-        if base[2] == 1:
-            base[2] = 0
-            P += 1
-        if base[1] == 1:
-            base[1] = 0
-            P += 1
+    for b in (3, 2, 1):
+        if base[b] == 1:
+            base[b] = 0
+            c = b + a
+            if c > 3:
+                P += 1
+            else:
+                base[c] = 1
+    if a == 4:
         P += 1
+    else:
+        base[a] = 1
+
 print(P)
