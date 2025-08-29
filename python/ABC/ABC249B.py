@@ -1,6 +1,3 @@
-from curses.ascii import islower
-
-
 S = input()
 
 has_lower = False
