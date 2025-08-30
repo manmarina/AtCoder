@@ -7,7 +7,7 @@ for i in range(M):
     G[a].append(b)
     G[b].append(a)
 
-# print(G)
+print(G)
 
 start = 0
 goal = N - 1
