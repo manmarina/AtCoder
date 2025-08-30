@@ -1,15 +1,13 @@
 N = int(input().strip())
-A = [input().strip() for _ in range(N)]
+S = [input().strip() for _ in range(N)]
 
+need = {'W': 'L', 'L': 'W', 'D': 'D'}
+
+# 対称チェック（i<j だけでOK）
 for i in range(N):
     for j in range(i + 1, N):
-        if A[i][j] == 'D' and A[j][i] != 'D':
-            print("incorrect")
-            exit()
-        elif A[i][j] == 'W' and A[j][i] != 'L':
-            print("incorrect")
-            exit()
-        elif A[i][j] == 'L' and A[j][i] != 'W':
+        a, b = S[i][j], S[j][i]
+        if a not in need or need[a] != b:  # 今回は a not in needはなくて良い
             print("incorrect")
             exit()
 
