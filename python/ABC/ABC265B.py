@@ -1,14 +1,26 @@
 N, M, T = map(int, input().split())
-A = list(map(int, input().split()))
+A = [0] + list(map(int, input().split()))
 bonus = {}
 for _ in range(M):
     x, y = map(int, input().split())
-    bonus[x - 1] = y
+    bonus[x] = y
 
-print(bonus)
+# print(A)
+# print(bonus)
 
-time = T
-for i in range(N):
+
+for i in range(1, N):
     if i in bonus:
         T += bonus[i]
-    time -= A[i]
+    T -= A[i]
+    if T <= 0:
+
+        # print(i)
+        # print(T)
+
+        print("No")
+        break
+else:
+    # print(T)
+
+    print("Yes")
