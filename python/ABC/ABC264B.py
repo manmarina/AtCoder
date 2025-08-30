@@ -1,10 +1,10 @@
 R, C = map(int, input().split())
 
-dr = abs(R - 8)
-dc = abs(C - 8)
-d = dr if dr > dc else dc
+dst = max(abs(R - 8), abs(C - 8))
 
-if d % 2:
+# print(dst)
+
+if dst % 2 == 1:
     print("black")
 else:
     print("white")
