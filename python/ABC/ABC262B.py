@@ -16,15 +16,9 @@ for a, b, c in combinations(dd.keys(), 3):
 
     # print((a, b, c))
 
-    if b not in dd[a]:
-        continue
-    if c not in dd[a]:
-        continue
-    if a not in dd[b]:
-        continue
-    if c not in dd[b]:
-        continue
-    ans.append((a, b, c))
+    # 三角形条件：ab, bc, ca の3本がある
+    if (b in dd[a]) and (c in dd[a]) and (c in dd[b]):
+        ans.append((a, b, c))
 
 # print(ans)
 
