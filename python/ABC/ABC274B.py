@@ -1,10 +1,13 @@
 H, W = map(int, input().split())
+C = [input() for _ in range(H)]
 
-X = [0 for i in range(W)]
-for i in range(H):
-    C = input()
-    for j in range(W):
-        if C[j] == '#':
-            X[j] += 1
+# print(C)
 
-print(*X)
+ans = []
+for j in range(W):
+    count = 0
+    for i in range(H):
+        if C[i][j] == '#':
+            count += 1
+    ans.append(count)
+print(*ans)
