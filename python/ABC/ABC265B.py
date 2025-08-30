@@ -1,21 +1,14 @@
 N, M, T = map(int, input().split())
 A = list(map(int, input().split()))
-XY = [list(map(int, input().split())) for _ in range(M)]
+bonus = {}
+for _ in range(M):
+    x, y = map(int, input().split())
+    bonus[x - 1] = y
 
-# print(XY)
+print(bonus)
 
 time = T
-i = 1
-while time > 0:
-    for a in A:
-        time -= a
-        if time < 0:
-            print("No")
-            exit()
-        i += 1
-        for x, y in XY:
-            if i == x:
-                time += y
-        if i == N:
-            print("Yes")
-            exit()
+for i in range(N):
+    if i in bonus:
+        T += bonus[i]
+    time -= A[i]
