@@ -1,25 +1,20 @@
-from collections import defaultdict
-from itertools import combinations
-
 N, M = map(int, input().split())
-UV = [list(map(int, input().split())) for _ in range(M)]
+adj = [[False] * N for _ in range(N)]
+for _ in range(M):
+    u, v = map(int, input().split())
+    u -= 1
+    v -= 1
+    adj[u][v] = adj[v][u] = True
 
-dd = defaultdict(set)
-for u, v in UV:
-    dd[u].add(v)
-    dd[v].add(u)
+print(adj)
 
-# print(dd)
+ans = 0
+for i in range(N):
+    for j in range(i + 1, N):
+        if not adj[i][j]:
+            continue
+        for k in range(j + 1, N):
+            if adj[i][k] and adj[j][k]:
+                ans += 1
 
-ans = []
-for a, b, c in combinations(dd.keys(), 3):
-
-    # print((a, b, c))
-
-    # 三角形条件：ab, bc, ca の3本がある
-    if (b in dd[a]) and (c in dd[a]) and (c in dd[b]):
-        ans.append((a, b, c))
-
-# print(ans)
-
-print(len(ans))
+print(ans)
