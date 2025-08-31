@@ -1,7 +1,9 @@
 N = int(input())
 S = list(map(int, input().split()))
+# print(S)
 
-print(S[0], end='')
+A = [S[0]]
 for i in range(1, N):
-    print('', S[i] - S[i - 1], end='')
-print()
+    A.append(S[i] - S[i - 1])
+
+print(*A)
