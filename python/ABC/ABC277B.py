@@ -1,23 +1,20 @@
-import sys
-
 N = int(input())
-S = []
-for i in range(N):
-    S.append(input())
+S = [input() for _ in range(N)]
+# print(S)
 
-check1 = "HDCS"
-check2 = "A23456789TJQK"
+ok1 = set("HDCS")
+ok2 = set("A23456789TJQK")
 
-if len(S) != len(set(S)):
-    print("No")
-    sys.exit()
 
-for i in range(N):
-    if S[i][0] not in check1:
-        print("No")
-        sys.exit()
-    if S[i][1] not in check2:
-        print("No")
-        sys.exit()
+def is_trump(S):
+    if len(S) != len(set(S)):
+        return False
+    for s in S:
+        if s[0] not in ok1:
+            return False
+        if s[1] not in ok2:
+            return False
+    return True
 
-print("Yes")
+
+print("Yes" if is_trump(S) else "No")
