@@ -1,11 +1,12 @@
 N, M = map(int, input().split())
+AB = [tuple(map(int, input().split())) for _ in range(M)]
+# print(AB)
 
-city = [[] for i in range(N)]
-for i in range(M):
-    A, B = map(int, input().split())
-    city[A - 1].append(B)
-    city[B - 1].append(A)
+adj = [[] for _ in range(N + 1)]
+for a, b in AB:
+    adj[a].append(b)
+    adj[b].append(a)
+# print(adj)
 
-for i in range(N):
-    city[i].sort()
-    print(len(city[i]), *city[i])
+for i in range(1, N + 1):
+    print(len(adj[i]), *sorted(adj[i]))
