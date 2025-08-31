@@ -1,20 +1,13 @@
+from itertools import combinations
+
 N, M = map(int, input().split())
-
-S = []
-point = []
-for i in range(N):
-    S.append(input())
-    point.append(0)
-
-for i in range(N):
-    for j in range(M):
-        if S[i][j] == 'o':
-            point[i] += 2**j
+S = [input() for _ in range(N)]
 
 count = 0
-for i in range(N):
-    for j in range(i + 1, N):
-        if point[i] | point[j] == 2**M - 1:
-            count += 1
-
+for s1, s2 in combinations(S, 2):
+    for c1, c2 in zip(s1, s2):
+        if c1 == 'x' and c2 == 'x':
+            break
+    else:
+        count += 1
 print(count)
