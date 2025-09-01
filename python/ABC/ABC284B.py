@@ -1,10 +1,10 @@
 T = int(input())
-N = []
 A = []
-
-for i in range(T):
-    N.append(int(input()))
+for _ in range(T):
+    _ = input()
     A.append(list(map(int, input().split())))
 
-for i in range(T):
-    print(len(list(filter(lambda n: n % 2 != 0, A[i]))))
+# print(A)
+
+for a in A:
+    print(sum(1 for i in a if i % 2 == 1))
