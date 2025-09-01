@@ -1,13 +1,12 @@
 N = int(input())
 S = input()
 
-for i in range(N - 1):
+for i in range(1, N):
     count = 0
-    for j in range(i + 1, N):
-        if S[j - i - 1] != S[j]:
-            count += 1
-        else:
+    for j in range(5 - i + 1):
+        if S[j] == S[j + i]:
             print(count)
             break
+        count += 1
     else:
         print(count)
