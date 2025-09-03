@@ -1,15 +1,11 @@
-N = int(input())
-S = [input() for _ in range(N)]
-# print(S)
+N = int(input().strip())
+S = [input().strip() for _ in range(N)]
 
-ans = []
-for i in range(N):
-    count = 0
-    for j in range(N):
-        if S[i][j] == 'o':
-            count += 1
-    ans.append((i + 1, count))
-# print(ans)
+wins = [row.count('o') for row in S]                  # 勝ち数を集計
+# print(wins)
 
-ans = sorted(ans, key=lambda x: (-x[1], x[0]))
-print(*[i for i, r in ans])
+order = sorted(range(N), key=lambda i: (-wins[i], i))  # 勝ち降順→番号昇順
+# print(order)
+
+ans = [i + 1 for i in order]                          # 1-index化
+print(*ans)
