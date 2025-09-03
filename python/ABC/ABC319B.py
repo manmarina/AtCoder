@@ -1,15 +1,14 @@
 N = int(input())
 
-j = []
-for i in range(1, N+1):
-    if N % i == 0 and i <= 9:
-        j.append(i)
+div = [(j, N // j) for j in range(1, 9 + 1) if N % j == 0]
+# print(div)
 
+ans = []
 for i in range(N + 1):
-    for k in j:
-        if i % (N/k) == 0:
-            print(k, end='')
+    for j, N_div_j in div:
+        if i % N_div_j == 0:
+            ans.append(j)
             break
     else:
-        print('-', end='')
-print()
+        ans.append('-')
+print(*ans, sep='')
