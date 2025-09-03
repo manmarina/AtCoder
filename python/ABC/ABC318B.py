@@ -1,15 +1,13 @@
 N = int(input())
+ABCD = [list(map(int, input().split())) for _ in range(N)]
+# print(ABCD)
 
-ABCD = []
-for i in range(N):
-    ABCD.append(list(map(int, input().split())))
+covered = [[False] * 100 for _ in range(100)]
+# print(covered)
 
-count = 0
-for x in range(100):
-    for y in range(100):
-        for A, B, C, D in ABCD:
-            if A <= x < B and C <= y < D:
-                count += 1
-                break
-
-print(count)
+for A, B, C, D in ABCD:
+    for i in range(C, D):
+        for j in range(A, B):
+            covered[i][j] = True
+print(sum(1 for row in covered for i in row if i))
+# print(sum(row.count(True) for row in covered))
