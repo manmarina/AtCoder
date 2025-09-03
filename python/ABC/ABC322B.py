@@ -2,18 +2,15 @@ N, M = map(int, input().split())
 S = input()
 T = input()
 
-# print(T[:len(S)])
-# print(T[-len(S):])
+is_pre = T.startswith(S)
+is_suf = T.endswith(S)
 
-pre = T[:len(S)]
-suf = T[-len(S):]
-
-if S == pre:
-    if S == suf:
+if is_pre:
+    if is_suf:
         print(0)
     else:
         print(1)
-elif S == suf:
+elif is_suf:
     print(2)
 else:
     print(3)
