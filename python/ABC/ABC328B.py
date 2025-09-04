@@ -1,11 +1,13 @@
 N = int(input())
 D = list(map(int, input().split()))
 
-count = 0
-for m in range(1, N + 1):
-    for d in range(1, D[m - 1] + 1):
-        ms = set(str(m))
-        ds = set(str(d))
-        if len(ms) == 1 and ms == ds:
-            count += 1
-print(count)
+ans = 0
+for i in range(1, N + 1):
+    s = str(i)
+    if len(set(s)) == 1:          # i がゾロ目月か？
+        d = int(s[0])             # 使われている数字 d（1〜9）
+        if d <= D[i - 1]:
+            ans += 1              # j = d
+        if 11 * d <= D[i - 1]:
+            ans += 1              # j = 11d
+print(ans)
