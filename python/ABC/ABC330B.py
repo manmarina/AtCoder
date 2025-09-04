@@ -3,11 +3,11 @@ A = list(map(int, input().split()))
 
 ans = []
 for a in A:
-    value = []
-    LtoR = []
-    for i in range(L, R + 1):
-        value.append(abs(i - a))
-        LtoR.append(i)
-    # print(value, LR)
-    ans.append(LtoR[value.index(min(value))])
+    # L以下ならL　R以上ならR　中間ならそのまま
+    if a < L:
+        ans.append(L)
+    elif a > R:
+        ans.append(R)
+    else:
+        ans.append(a)
 print(*ans)
