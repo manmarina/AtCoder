@@ -1,7 +1,4 @@
 N = int(input())
 
-ans = 0
-while N % 2 == 0:
-    ans += 1
-    N //= 2
-print(ans)
+b = bin(N)               # '0b...'
+print(len(b) - len(b.rstrip('0')))
