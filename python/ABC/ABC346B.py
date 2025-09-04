@@ -1,14 +1,22 @@
 W, B = map(int, input().split())
 
-S = "wbwbwwbwbwbw" * (100 // 7 + 1)
+pat = "wbwbwwbwbwbw"
+need = W + B
+S = pat * (need // len(pat) + 3)
+print(S)
 
-for i in range(12):
-    chk = S[i:i + W + B]
-    wc = chk.count('w')
-    bc = chk.count('b')
+# w の累積和
+pre_w = [0]
+for ch in S:
+    pre_w.append(pre_w[-1] + (ch == 'w'))
 
-    if wc == W and bc == B:
-        print("Yes")
+ok = False
+for start in range(len(pat)):           # 開始位置は周期12通りだけ試せばよい
+    end = start + need
+    wcnt = pre_w[end] - pre_w[start]
+    bcnt = need - wcnt
+    if wcnt == W and bcnt == B:
+        ok = True
         break
-else:
-    print("No")
+
+print("Yes" if ok else "No")
