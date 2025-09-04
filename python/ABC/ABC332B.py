@@ -8,11 +8,7 @@ for _ in range(K):
     elif m == 0:
         m = M
     else:
-        dg = G - g
-        if dg <= m:
-            g += dg
-            m -= dg
-        else:
-            g += m
-            m = 0
+        move = min(m, G - g)
+        g += move
+        m -= move
 print(g, m)
