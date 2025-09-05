@@ -1,17 +1,14 @@
-S = input()
-T = input()
+S = input().strip()
+T = input().strip()
 
-ls = len(S)
-lt = len(T)
-
-if ls > lt:
-    T = T + '*'
-elif ls < lt:
-    S = S + '*'
-
-for i in range(max(ls, lt)):
+m = min(len(S), len(T))
+for i in range(m):
     if S[i] != T[i]:
         print(i + 1)
         break
 else:
-    print(0)
+    # 先頭 m 文字が一致
+    if len(S) == len(T):
+        print(0)
+    else:
+        print(m + 1)
