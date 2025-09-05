@@ -1,11 +1,14 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-tagged = [(a, i) for i, a in enumerate(A, 1)]
-tagged.sort(key=lambda x: -x[0])
-# print(tagged)
+mx, imx = -1, -1  # max,maxのインデックス
+smx, ismx = -1, -1  # 2番目のmax, 2番目のmaxのインデックス
 
-tagged.pop(0)
-# print(tagged)
+for i, a in enumerate(A, start=1):  # 1-indexed位置を保持
+    if a > mx:
+        smx, ismx = mx, imx
+        mx, imx = a, i
+    elif a > smx:
+        smx, ismx = a, i
 
-print(tagged[0][1])
+print(ismx)
