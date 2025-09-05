@@ -1,18 +1,7 @@
 N = int(input())
-S = [input() for _ in range(N)]
-# print(S)
+S = [input().rstrip() for _ in range(N)]
+M = max(len(s) for s in S)
 
-mx = max([len(s) for s in S])
-# print(mx)
-
-hor = []
-for s in S:
-    hor.append(s + '*' * (mx - len(s)))
-# print(hor)
-
-ver = [''.join(list(h)) for h in zip(*hor[::-1])]
-# print(ver)
-
-ver = [v.rstrip('*') for v in ver]
-# print(ver)
-print(*ver, sep='\n')
+for j in range(M):
+    col = [(S[i][j] if j < len(S[i]) else '*') for i in range(N - 1, -1, -1)]
+    print(''.join(col).rstrip('*'))
