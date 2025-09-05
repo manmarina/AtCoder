@@ -1,28 +1,20 @@
 S, T = input().split()
+n, m = len(S), len(T)
 
-ls = len(S)
-lt = len(T)
-w = ls // lt
-# print(w)
+for c in range(1, n):           # 1 ≤ c
+    for w in range(c, n):        # c ≤ w < n
+        # 取り出し位置は c-1, c-1+w, c-1+2w, ...
+        # 長さが違えばスキップ（任意の枝刈り）
+        k = (n - c) // w + 1
+        if k != m:
+            continue
 
-if w == ls:
-    print("No")
-    exit()
-
-cut = []
-for i in range(0, ls, w):
-    cut.append(S[i:i + w])
-# print(cut)
-
-for j in range(w):
-    temp = []
-    for i in range(len(cut)):
-        temp.append(cut[i][j:j + 1])
-    temp = ''.join(temp)
-    # print(temp)
-
-    if temp == T:
-        print("Yes")
-        exit()
-else:
-    print("No")
+        made = []
+        p = c - 1
+        while p < n:
+            made.append(S[p])
+            p += w
+        if ''.join(made) == T:
+            print("Yes")
+            exit()
+print("No")
