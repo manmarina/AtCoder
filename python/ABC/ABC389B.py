@@ -1,15 +1,8 @@
-X = int(input())
+X = int(input().strip())
 
-
-def factorial(n):
-    f = 1
-    for i in range(2, n + 1):
-        f *= i
-    return f
-
-
-for i in range(2, 20 + 1):
-    f = factorial(i)
-    if f == X:
-        print(i)
-        break
+i = 2
+while X > 1:
+    assert X % i == 0  # 保証があるので実際は不要　階乗でない数値の時にエラーを発生
+    X //= i
+    i += 1
+print(i - 1)
