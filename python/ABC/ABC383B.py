@@ -1,20 +1,21 @@
 H, W, D = map(int, input().split())
 S = [input().strip() for _ in range(H)]
 
-floors = [(i, j) for i in range(H) for j in range(W) if S[i][j] == '.']
+# 床座標だけ集める
+P = [(i, j) for i in range(H) for j in range(W) if S[i][j] == '.']
+F = len(P)
 
 ans = 0
-for i in range(len(floors)):
-    ax, ay = floors[i]
-    for j in range(i + 1, len(floors)):
-        bx, by = floors[j]
+for a in range(F):
+    ax, ay = P[a]
+    for b in range(a + 1, F):          # 2台は別の床マスに置く前提
+        bx, by = P[b]
         cnt = 0
-        for x in range(H):
-            for y in range(W):
-                if S[x][y] == '.' and (
-                    abs(ax - x) + abs(ay - y) <= D or abs(bx - x) + abs(by - y) <= D
-                ):  # すべての床を探索して、2つの加湿器どちらかが届くか判定
-                    cnt += 1
+        # 床マスを1つずつ見て、どちらかから距離≤Dならカウント
+        for x, y in P:
+            if abs(ax - x) + abs(ay - y) <= D or abs(bx - x) + \
+                    abs(by - y) <= D:
+                cnt += 1
         ans = max(ans, cnt)
 
 print(ans)
