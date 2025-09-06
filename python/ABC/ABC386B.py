@@ -1,23 +1,14 @@
-S = input()
+S = input().strip()
+n = len(S)
 
-
-def count_zero(run):
-    if run % 2:
-        run = -(-run // 2)
+i = 0
+press = 0
+while i < n:
+    # i + 1 < n を先に書くことで、S[i + 1]のインデクスオーバーフローを防ぐ
+    if S[i] == '0' and i + 1 < n and S[i + 1] == '0':
+        press += 1  # use "00"
+        i += 2
     else:
-        run //= 2
-    return run
-
-
-run = 0
-count = 0
-for s in S:
-    if s == '0':
-        run += 1
-    else:
-        count += count_zero(run)
-        run = 0
-        count += 1
-count += count_zero(run)
-
-print(count)
+        press += 1  # use single digit
+        i += 1
+print(press)
