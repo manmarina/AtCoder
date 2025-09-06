@@ -1,10 +1,14 @@
 N, D = map(int, input().split())
-TL = [list(map(int, input().split()))for _ in range(N)]
+T, L = [], []
+for _ in range(N):
+    t, l = map(int, input().split())
+    T.append(t)
+    L.append(l)
 
-ans = []
-for i in range(1, D + 1):
-    temp = []
-    for t, l in TL:
-        temp.append(t * (l + i))
-    ans.append(max(temp))
-print(*ans, sep='\n')
+for k in range(1, D + 1):
+    best = 0
+    for i in range(N):
+        w = T[i] * (L[i] + k)       # = T[i]*L[i] + T[i]*k
+        if w > best:
+            best = w
+    print(best)
