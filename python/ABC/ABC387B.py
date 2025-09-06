@@ -1,9 +1,5 @@
 X = int(input())
 
-total = 0
-for i in range(1, 9 + 1):
-    for j in range(1, 9 + 1):
-        ij = i * j
-        if ij != X:
-            total += ij
-print(total)
+# 表の中のXの数cntを求める　cntはXを割り切ることができる1〜9の整数
+cnt = sum(1 for d in range(1, 10) if X % d == 0 and X // d <= 9)
+print(2025 - X * cnt)
