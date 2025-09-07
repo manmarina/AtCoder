@@ -1,13 +1,12 @@
-S = input()
+S = input().strip()
 
-ls = len(S)
-count = 0
-for i in range((ls - 3) // 2 + 1):
-    lt = 3 + i * 2
-    for j in range(ls - lt + 1):
-        a = j
-        b = j + i + 1
-        c = j + 2 * i + 2
-        if S[a] == 'A' and S[b] == 'B' and S[c] == 'C':
-            count += 1
-print(count)
+n = len(S)
+ans = 0
+for j in range(n):
+    if S[j] != 'B':
+        continue
+    lim = min(j, n - 1 - j)  # 右にも左にも d 進める最大
+    for d in range(1, lim + 1):
+        if S[j - d] == 'A' and S[j + d] == 'C':
+            ans += 1
+print(ans)
