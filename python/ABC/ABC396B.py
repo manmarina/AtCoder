@@ -1,12 +1,17 @@
-Q = int(input())
-q = [list(map(int, input().split())) for _ in range(Q)]
-# print(q)
+import sys
 
-pile = [0] * 100
-# print(pile)
+it = iter(sys.stdin.read().rstrip().split())
+Q = int(next(it))
 
-for que in q:
-    if que[0] == 1:
-        pile.append(que[1])
-    else:
-        print(pile.pop())
+stack = [0] * 100
+out = []
+
+for _ in range(Q):
+    c = next(it)
+    if c == '1':
+        x = int(next(it))
+        stack.append(x)
+    else:  # c == '2'
+        out.append(str(stack.pop()))
+
+print("\n".join(out))
