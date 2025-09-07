@@ -1,11 +1,15 @@
 N, M = map(int, input().split())
-S = [input() for _ in range(N)]
-T = [input() for _ in range(M)]
-# print(S)
-# print(T)
+S = [input().rstrip() for _ in range(N)]
+T = [input().rstrip() for _ in range(M)]
 
-for i in range(N - M + 1):
-    for j in range(N - M + 1):
-        if all(S[i + k][j + l] == T[k][l] for k in range(M) for l in range(M)):
-            print(i + 1, j + 1)
-            break
+for a in range(N - M + 1):        # 0-indexの a は実際の a-1
+    for b in range(N - M + 1):    # 0-indexの b は実際の b-1
+        ok = True
+        for i in range(M):
+            # 行ごとにまとめて比較すると速く・簡潔
+            if S[a + i][b:b + M] != T[i]:
+                ok = False
+                break
+        if ok:
+            print(a + 1, b + 1)   # 1-index に戻して出力
+            raise SystemExit
