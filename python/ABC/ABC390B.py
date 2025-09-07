@@ -1,12 +1,10 @@
-from math import isclose
-
 N = int(input())
 A = list(map(int, input().split()))
 # print(A)
 
-r = A[1] / A[0]
+a0, a1 = A[0], A[1]
 for i in range(1, N - 1):
-    if not isclose(A[i + 1] / A[i], r):
+    if A[i + 1] * a0 != A[i] * a1:  # クロス積が等しければ公比数列
         print("No")
         break
 else:
