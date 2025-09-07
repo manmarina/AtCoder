@@ -1,13 +1,27 @@
-T = int(input())
-tc = [list(map(int, input().split())) for _ in range(T)]
-# print(tc)
+import sys
 
-for na, nb, nc in tc:
-    if min(na, nb, nc) != nb:
-        print(min(na, nc))
-    else:
-        ans = nb
-        na -= nb
-        nc -= nb
-        ans += min(min(na, nc), max(na, nc) // 2)
-        print(ans)
+input = sys.stdin.buffer.readline
+T = int(input())
+
+out = []
+for _ in range(T):
+    a, b, c = map(int, input().split())
+    total = a + b + c
+    out.append(str(min(a, c, total // 3)))
+print("\n".join(out))
+
+
+"""
+bが最小で、a==cの時
+101 -> 0
+202 -> 1
+303 -> 2
+404 -> 2
+505 -> 3
+606 -> 4
+707 -> 4
+808 -> 5
+909 -> 6
+以上正しく動作している。
+自分のコードではこの通りの回答が得られなかった。
+"""
