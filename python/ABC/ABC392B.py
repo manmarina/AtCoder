@@ -1,10 +1,10 @@
 N, M = map(int, input().split())
 A = list(map(int, input().split()))
 
-ans = []
-for i in range(1, N + 1):
-    if i not in A:
-        ans.append(i)
+seen = [False] * (N + 1)
+for x in A:
+    seen[x] = True
 
-print(len(ans))
-print(*ans)
+miss = [i for i in range(1, N + 1) if not seen[i]]
+print(len(miss))
+print(*miss)  # len==0 のときは空行になる
