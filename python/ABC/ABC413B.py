@@ -1,10 +1,11 @@
-from itertools import permutations
-
 N = int(input())
-S = [input() for _ in range(N)]
+S = [input().strip() for _ in range(N)]
 
 seen = set()
-for s1, s2 in permutations(S, 2):
-    s = s1 + s2
-    seen.add(s)
+for i in range(N):
+    for j in range(N):
+        if i == j:
+            continue
+        seen.add(S[i] + S[j])
+
 print(len(seen))
