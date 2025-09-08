@@ -1,10 +1,12 @@
 from itertools import combinations
+from collections import Counter
 
 A = list(map(int, input().split()))
 
 for cards in combinations(A, 5):
     # print(sorted(cards))
-    if len(set(cards)) == 2:  # 1枚と4枚でもフルハウスと判定してしまっている
+    cnt = Counter(cards)
+    if sorted(cnt.values()) == [2, 3]:  # 2枚と3枚
         print("Yes")
         break
 else:
