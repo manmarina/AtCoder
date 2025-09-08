@@ -1,6 +1,6 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-A = sorted(list(set(A)))
-print(len(A))
-print(*A)
+vals = sorted(set(A))        # 重複除去 → 昇順
+print(len(vals))
+print(*vals)
