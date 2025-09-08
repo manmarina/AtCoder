@@ -1,10 +1,15 @@
 N = int(input())
 D = list(map(int, input().split()))
 
-for i in range(N - 1):        # 0..N-2 が駅 i+1 を表す
-    cur = 0
+# S[0]=0, S[k]=D1+...+Dk (長さ N) 累積和テーブルを作成
+S = [0] * (N)
+for k in range(1, N):
+    S[k] = S[k - 1] + D[k - 1]
+print(S)
+
+for i in range(1, N):               # i: 1..N-1
     row = []
-    for j in range(i, N - 1):  # 区間 D_i..D_{j} を累積
-        cur += D[j]
-        row.append(str(cur))
+    for j in range(i + 1, N + 1):       # j: i+1..N
+        dist = S[j - 1] - S[i - 1]
+        row.append(str(dist))
     print(" ".join(row))
