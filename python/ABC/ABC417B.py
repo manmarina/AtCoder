@@ -4,19 +4,14 @@ N, M = map(int, input().split())
 A = list(map(int, input().split()))
 B = list(map(int, input().split()))
 
+need = Counter(B)  # 各値を何個消すか
+print(need)
+
 ans = []
-cnt = Counter(A)  # Aのカウンターを作成
+for x in A:
+    if need[x] > 0:
+        need[x] -= 1   # この x は削除
+    else:
+        ans.append(x)
 
-# cntから取り出した数をマイナスする
-for b in B:
-    if cnt[b] > 0:
-        cnt[b] -= 1
-# print(cnt)
-
-# cntが正ならcntを減らして正解に追加する
-for a in A:
-    if cnt[a] > 0:
-        cnt[a] -= 1
-        ans.append(a)
-
-print(*ans)
+print(*ans)  # 空なら何も出ない
