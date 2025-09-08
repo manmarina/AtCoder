@@ -2,14 +2,15 @@ N = int(input())
 A = list(map(int, input().split()))
 
 A.sort(reverse=True)
-print(A)
+# print(A)
 
-for i, a in enumerate(A, 1):
-    if a <= i:
-        print(i)
+ans = 0
+for i, v in enumerate(A, start=1):  # iは“候補x”
+    if v >= i:
+        ans = i
+    else:
         break
-else:
-    print(0)
+print(ans)
 
 """
 3
