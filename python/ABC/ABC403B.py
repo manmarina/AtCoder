@@ -1,17 +1,15 @@
-T = input()
-U = input()
+T = input().strip()
+U = input().strip()
+n, m = len(T), len(U)
 
-lt = len(T)
-lu = len(U)
-
-for i in range(lt - lu + 1):
-    for j in range(lu):
-        t = T[i + j]
-        u = U[j]
-        if t != '?' and t != u:
+for i in range(n - m + 1):
+    ok = True
+    for j in range(m):
+        if T[i + j] != '?' and T[i + j] != U[j]:
+            ok = False
             break
-    else:
+    if ok:
         print("Yes")
-        exit()
+        break
 else:
     print("No")
