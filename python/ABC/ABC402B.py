@@ -1,9 +1,17 @@
-Q = int(input())
-query = [list(map(int, input().split()))for _ in range(Q)]
+from collections import deque
+import sys
 
-que = []
-for q in query:
-    if q[0] == 1:
-        que.append(q[1])
-    else:  # q[0] == 2
-        print(que.pop(0))
+it = iter(sys.stdin.read().strip().split())
+Q = int(next(it))
+q = deque()
+out = []
+
+for _ in range(Q):
+    t = next(it)
+    if t == '1':
+        x = int(next(it))
+        q.append(x)
+    else:  # t == '2'
+        out.append(str(q.popleft()))
+
+print("\n".join(out))
