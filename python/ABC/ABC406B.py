@@ -1,9 +1,12 @@
 N, K = map(int, input().split())
 A = list(map(int, input().split()))
 
-i = 1
+T = 10 ** K
+x = 1
 for a in A:
-    i *= a
-    if i >= 10**K:
-        i = 1
-print(i)
+    p = x * a
+    if p >= T:
+        x = 1
+    else:
+        x = p
+print(x)
