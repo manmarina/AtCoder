@@ -1,11 +1,12 @@
-N = int(input())
+N = int(input().strip())
 A = list(map(int, input().split()))
 
-mn, mx = min(A), max(A)
-ans = []
-for i in range(mn, mx + 1):
-    cost = 0
+lo, hi = min(A), max(A)
+ans = float('inf')
+for t in range(lo, hi + 1):
+    s = 0
     for a in A:
-        cost += (a - i)**2
-    ans.append(cost)
-print(min(ans))
+        d = a - t
+        s += d * d
+    ans = min(ans, s)
+print(ans)
