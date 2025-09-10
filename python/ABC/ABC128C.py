@@ -1,25 +1,29 @@
 N, M = map(int, input().split())
+s = []
+for _ in range(M):
+    temp = list(map(int, input().split()))
+    temp.pop(0)
+    s.append(temp)
+p = list(map(int, input().split()))
+# print(s)
 
 # 電球ごとの接続スイッチをビットマスク化
 masks = []
-for _ in range(M):
-    data = list(map(int, input().split()))
-    k, arr = data[0], data[1:]
+for switches in s:
     mask = 0
-    for x in arr:
-        mask |= 1 << (x - 1)   # 1-index -> 0-index
+    for x in switches:
+        mask |= 1 << (x - 1)  # 1-index -> 0-index
     masks.append(mask)
+# print(masks)
 
-p = list(map(int, input().split()))
-
+# ビットマスクのスイッチパターンを電球ごとに試して、点灯しなければパス 全ての電球が点灯したらans++
 ans = 0
-for s in range(1 << N):           # スイッチ割り当て
-    ok = True
-    for j in range(M):
-        # if ((s & masks[j]).bit_count() % 2) != p[j]:
-        if (bin(s & masks[j]).count('1') % 2) != p[j]:  # 古いバージョンのpythonならこちら
-            ok = False
+for mask in range(1 << N):  # スイッチ割り当て
+    for j in range(M):  # 電球のスイッチと、ビットマスクのスイッチパターンを照合
+        # if ((mask & masks[j]).bit_count() % 2) != p[j]:
+        if (bin(mask & masks[j]).count('1') % 2) != p[j]:  # 古いpythonならこちら
             break
-    if ok:
+    else:
         ans += 1
+
 print(ans)
