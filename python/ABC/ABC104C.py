@@ -1,46 +1,43 @@
 D, G = map(int, input().split())
-p = []
-c = []
-for i in range(D):
-    pi, ci = map(int, input().split())
-    p.append(pi)
-    c.append(ci)
+pc = [list(map(int, input().split())) for _ in range(D)]
+# print(pc)
 
-INF = 10**18
-ans = INF
-
+ans = []
 for mask in range(1 << D):
     score = 0
     used = 0
-    # まず「全問解く」と決めた種類を加算
+    # ビットマスクで全問回答すると選択した問題をすべて回答して、点数と回答数を加算
     for i in range(D):
         if (mask >> i) & 1:
-            score += 100 * (i + 1) * p[i] + c[i]
-            used += p[i]
+            score += 100 * (i + 1) * pc[i][0] + pc[i][1]
+            used += pc[i][0]
 
+    # この時点で点数がG以上なら次のループへ
     if score >= G:
-        ans = min(ans, used)
+        ans.append((score, used))
         continue
 
-    # 届かない分を高い種類から貪欲に埋める（ボーナスは狙わない → p[i]-1 まで）
-    need = G - score
-    for i in reversed(range(D)):  # i = D-1, D-2, ..., 0
+    # Gに届かない文を高い得点の問題から貪欲に埋める（ボーナスをもらえない範囲で）
+    need = G - score  # あと何点必要か？
+    for i in reversed(range(D)):
+        # 全問回答した問題はパスする
         if (mask >> i) & 1:
             continue
-        v = 100 * (i + 1)
-        max_take = p[i] - 1
-        if max_take <= 0:
-            continue
-        k = (need + v - 1) // v  # ceil_div
-        take = min(max_take, k)
-        score += take * v
-        used += take
-        need = G - score
-        if need <= 0:
-            ans = min(ans, used)
-            break
 
-print(ans)
+        # ボーナスをもらえない範囲で全部回答してもneedに満たなければパス
+        max_take = pc[i][0] - i
+        v = 100 * (i + 1)
+        if v * max_take < need:
+            continue
+
+        # needを満たす最小限の問題数を求める
+        take = -(-need // v)  # 天井関数
+        score += v * take
+        used += take
+        ans.append((score, used))
+
+# print(ans)
+print(min(a for _, a in ans))
 
 """
 ざっくり言うと「bit 全探索 + 貪欲での穴埋め」です。
