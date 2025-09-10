@@ -1,26 +1,17 @@
-ABCD = input()
+S = input().strip()
+a = [int(x) for x in S]  # [A,B,C,D]
 
-ln = len(ABCD)
-formulas = []
-ans = 0
-for mask in range(1 << (ln - 1)):  # ビットマスクを生成
-    temp = int(ABCD[0])
-    formula = [ABCD[0]]
-    for i in range(1, ln):
-        if mask >> (i - 1) & 1:  # ビットマスクが1なら+、0なら-
-            temp += int(ABCD[i])
-            formula.append('+' + ABCD[i])
+for mask in range(1 << 3):  # 0..7
+    val = a[0]
+    ops = []  # 文字列復元用
+    for i in range(3):
+        if (mask >> i) & 1:  # 1: '+', 0: '-'
+            val += a[i + 1]
+            ops.append('+')
         else:
-            temp -= int(ABCD[i])
-            formula.append('-' + ABCD[i])
-
-    # 答えを追記して配列に格納
-    formula.append('=' + str(temp))
-    formulas.append(''.join(formula))
-
-    # 答えが7のときのインデックスを格納
-    if temp == 7:
-        ans = len(formulas) - 1
-
-# print(*formulas)
-print(formulas[ans])
+            val -= a[i + 1]
+            ops.append('-')
+    if val == 7:
+        expr = f"{a[0]}{ops[0]}{a[1]}{ops[1]}{a[2]}{ops[2]}{a[3]}=7"
+        print(expr)
+        break
