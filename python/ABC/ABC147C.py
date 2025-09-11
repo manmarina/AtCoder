@@ -9,9 +9,10 @@ for _ in range(N):
         x, y = map(int, input().split())
         st.append((x - 1, y))  # 0-index
     A.append(st)
-print(A)
+# print(A)
 
-ans = 0
+# 「正直者だと仮定した人」の証言だけを信じて矛盾がないかを確かめる。
+ans = []
 for mask in range(1 << N):  # 正直者候補集合
     ok = True
     for i in range(N):
@@ -23,11 +24,13 @@ for mask in range(1 << N):  # 正直者候補集合
                 if y == 0 and ((mask >> x) & 1) == 1:
                     ok = False
                     break
-        if not ok:
+        if not ok:  # 二重ブレイクのために必要
             break
-    if ok:
-        ans = max(ans, bin(mask).count("1"))
-print(ans)
+    if ok:  # 二重ブレイクしたあとに実行させないために必要
+        ans.append(bin(mask).count("1"))
+
+# print(ans)
+print(max(ans))
 
 
 """
