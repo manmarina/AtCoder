@@ -1,29 +1,34 @@
 N, M = map(int, input().split())
-AB = [tuple(map(int, input().split())) for _ in range(M)]
+AB = [list(map(int, input().split())) for _ in range(M)]
 K = int(input())
-CD = [tuple(map(int, input().split())) for _ in range(K)]
+CD = [list(map(int, input().split())) for _ in range(K)]
 
-# 0-index 化
+# 0-indexに変換
 AB = [(a - 1, b - 1) for a, b in AB]
 CD = [(c - 1, d - 1) for c, d in CD]
 
 # ビットマスクの通りにボールを更に置く
-ans = 0
+ans = []
 for mask in range(1 << K):
     has = [0] * N  # 皿の初期状態（ボールが乗っていない）
     for j in range(K):
         c, d = CD[j]
-        x = d if (mask >> j) & 1 else c  # ビットマスクが0のときにc, 1のときdに乗せると決める（逆でも良い）　
-        has[x] = 1  # ビットマスクの通りに更にボールを乗せる
+        if (mask >> j) & 1:
+            has[c] += 1  # ビットマスクが1の時
+        else:
+            has[d] += 1  # ビットマスクが0の時
+
+    # print(has)
 
     # 条件を数える
     cnt = 0
     for a, b in AB:
-        if has[a] and has[b]:
+        if has[a] and has[b]:  # a,b両方にボールが乗っていたら
             cnt += 1
-    ans = max(ans, cnt)
+    ans.append(cnt)
 
-print(ans)
+# print(ans)
+print(max(ans))
 
 """
 ビット全探索（2^K）
