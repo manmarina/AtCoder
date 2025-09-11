@@ -1,22 +1,25 @@
-import sys
+N = int(input())
+A = list(map(int, input().split()))
 
-N = int(sys.stdin.readline())
-A = list(map(int, sys.stdin.readline().split()))
-
-INF = 1 << 60
-ans = INF
-
-# 切れ目は N-1 箇所
+# 切れ目をいれる箇所はN-1 ビットマスク作成
+ans = []
 for mask in range(1 << (N - 1)):
-    cur_or = 0   # 現在区間のOR
-    total = 0    # 区間ORをXORで畳み込んだ値
+    cur_or = 0
+    total = 0
+    # print(bin(mask))
+
+    # 数列Aを順に処理
     for i in range(N):
         cur_or |= A[i]
-        # i の位置で切るか？（i は区間の末尾候補）
-        if i < N - 1 and (mask >> i) & 1:
+
+        # ビットマスクが1のところでカットしてtotalとXORする
+        if (mask >> i) & 1:
             total ^= cur_or
             cur_or = 0
-    total ^= cur_or  # 最後の区間
-    ans = min(ans, total)
 
-print(ans)
+    # 最後に残った部分とtotalとXORしてansに格納
+    total ^= cur_or
+    ans.append(total)
+
+# print(ans)
+print(min(ans))
