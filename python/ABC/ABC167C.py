@@ -1,34 +1,35 @@
 N, M, X = map(int, input().split())
 C = []
 A = []
-for _ in range(N):  # CとAを別のリストに格納
-    temp = list(map(int, input().split()))
-    c, *a = temp
-    C.append(c)
-    A.append(a)
-# print(C)
-# print(A)
+for _ in range(N):
+    row = list(map(int, input().split()))
+    C.append(row[0])
+    A.append(row[1:])
 
-# ビットマスクで購入する書籍の全パターンを網羅　各購入パターンの金額と理解度をansに格納
-ans = []
+INF = 10**18
+ans = INF
+
 for mask in range(1 << N):
     cost = 0
-    level = [0] * M
+    skill = [0] * M
+    # 1) 本を積む
     for i in range(N):
         if (mask >> i) & 1:
             cost += C[i]
+            if cost >= ans:  # 早期打ち切り
+                break
+            ai = A[i]
             for j in range(M):
-                level[j] += A[i][j]
-    ans.append((cost, level))
+                skill[j] += ai[j]
+    else:
+        # 2) しきい値判定（全て X 以上か）
+        ok = True
+        for j in range(M):
+            if skill[j] < X:
+                ok = False
+                break
+        if ok:
+            # ans = min(ans, cost)
+            ans = cost
 
-# 金額順にソートしたリストの理解度をXと照合
-# 理解度がすべてXを超えていたら金額を表示して終了
-# 理解度がすべてXを超えるパターンがなければ-1を表示して終了
-ans.sort(key=lambda x: x[0])
-# print(ans)
-for cost, level in ans:
-    if all(l >= X for l in level):
-        print(cost)
-        break
-else:
-    print(-1)
+print(ans if ans < INF else -1)
