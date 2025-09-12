@@ -1,34 +1,21 @@
-import sys
+N, X = map(int, input().split())
+a = list(map(int, input().split()))
+print(a)
 
-n, X = map(int, sys.stdin.readline().split())
-a = list(map(int, sys.stdin.readline().split()))
+result = 0
 
-ans = 0
-for i in range(1, n):
-    s = a[i - 1] + a[i]
-    if s > X:
-        d = s - X              # 必ず削る量
-        t = min(d, a[i])       # まず現在の箱から
-        a[i] -= t
-        ans += t
-        d -= t
-        if d:                  # まだ残れば前の箱から（配列を書き換えなくてもOK）
-            # a[i-1] -= d     # 書き換える必要はないが、しても良い
-            ans += d
-print(ans)
+# X以上のキャンディは最初に食べておく
+for i in range(N):
+    if a[i] > X:
+        result += a[i] - X
+        a[i] = X
+print(a)
+print(result)
 
-"""
-コアとなる考え方（貪欲・一方向スキャン）
+for i in range(N - 1):
+    if a[i] + a[i + 1] > X:
+        result += a[i] + a[i + 1] - X
+        a[i + 1] = X - a[i]
 
-左から順に見て、直前の箱との合計が X を超えたぶんだけ、その場で削る——これで最適です。
-    i 番目で直前との合計 s = a[i-1] + a[i] を計算
-    もし s > X なら超過量 d = s - X を必ず削る必要がある
-    まず今の箱から t = min(d, a[i]) だけ削る
-    まだ足りなければ（d > a[i] の場合）残り d - t を前の箱から削ったことにする
-    ※前の箱はもう右側の対だけを見るので、ここで削っても将来に影響なし（だからこの貪欲でOK）
-
-これを左→右に一回やれば最小になる（将来のペアに影響しうるのは現在の右側だけだが、
-右側の合計を抑えるには今ここで超過分を消しておくのが最善）。
-
-計算量 O(N)、追加メモリ O(1)。
-"""
+print(a)
+print(result)
