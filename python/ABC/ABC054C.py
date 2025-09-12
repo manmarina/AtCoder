@@ -1,28 +1,28 @@
 from itertools import permutations
 
+# グラフを隣接行列で管理する
 N, M = map(int, input().split())
-g = [[False] * N for _ in range(N)]
+G = [[False] * N for _ in range(N)]
 for _ in range(M):
     a, b = map(int, input().split())
     a -= 1
-    b -= 1
-    g[a][b] = g[b][a] = True
-# print(g) # ex.[[False, True, True], [True, False, True], [True, True, False]]
+    b -= 1  # 0-index
+    G[a][b] = G[b][a] = True
 
-ans = 0
-for perm in permutations(range(1, N)):  # 出発は0(=頂点1)固定
-    print(perm)
-
+# 順列を全部試す（先頭が0以外になったら打ち切り）
+res = 0
+for ord in permutations(range(N)):
+    if ord[0] != 0:
+        break
     ok = True
-    cur = 0
-    for nxt in perm:
-        if not g[cur][nxt]:
+    for i in range(N - 1):
+        if not G[ord[i]][ord[i + 1]]:
             ok = False
             break
-        cur = nxt
     if ok:
-        ans += 1
-print(ans)
+        res += 1
+
+print(res)
 
 """
 順列全探索
