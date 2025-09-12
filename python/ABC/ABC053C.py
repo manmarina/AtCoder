@@ -1,11 +1,9 @@
 x = int(input())
 
-div = x // 11
-mod = x % 11
-rem = 0
-if 0 < mod <= 6:
-    rem = 1
-elif mod > 6:
-    rem = 2
-
-print(div * 2 + rem)
+res = (x // 11) * 2
+r = x % 11
+if r > 0:
+    res += 1
+if r > 6:
+    res += 1
+print(res)
