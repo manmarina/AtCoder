@@ -1,18 +1,13 @@
 S = input()
+T = ["dreamer", "dream", "eraser", "erase"]
 
-words = ["dream", "dreamer", "erase", "eraser"]
-while 1:
-    for suf in words:
-        if S.endswith(suf):
-            S = S[:len(S) - len(suf)]
-
-            # print(S)
-
-            if len(S) == 0:
-                print("YES")
-                exit()
-            else:
-                break
+while S:
+    for word in T:
+        if S.endswith(word):
+            S = S[:-len(word)]
+            break
     else:
         print("NO")
         exit()
+
+print("YES")
