@@ -1,9 +1,4 @@
-x = int(input())
-
-res = (x // 11) * 2
-r = x % 11
-if r > 0:
-    res += 1
-if r > 6:
-    res += 1
-print(res)
+X = int(input())
+q, r = divmod(X, 11)
+ans = 2 * q + (0 if r == 0 else 1 if r <= 6 else 2)
+print(ans)
