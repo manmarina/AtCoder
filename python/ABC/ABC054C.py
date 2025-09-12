@@ -1,28 +1,30 @@
-from collections import defaultdict
 from itertools import permutations
 
-
 N, M = map(int, input().split())
-ab = [list(map(int, input().split()))for _ in range(M)]
+g = [[False] * N for _ in range(N)]
+for _ in range(M):
+    a, b = map(int, input().split())
+    a -= 1
+    b -= 1
+    g[a][b] = g[b][a] = True
+# print(g) # ex.[[False, True, True], [True, False, True], [True, True, False]]
 
-G = defaultdict(set)
-for a, b in ab:
-    G[a].add(b)
-    G[b].add(a)
-# print(G)
+ans = 0
+for perm in permutations(range(1, N)):  # 出発は0(=頂点1)固定
+    print(perm)
 
-ans = []
-for root in permutations(range(2, N + 1)):
-    root = [1, *root]
-    # print(root)
-
-    for i in range(N - 1):
-        r = root[i + 1]
-        g = G[root[i]]
-        if r not in g:
+    ok = True
+    cur = 0
+    for nxt in perm:
+        if not g[cur][nxt]:
+            ok = False
             break
-    else:
-        ans.append(root)
+        cur = nxt
+    if ok:
+        ans += 1
+print(ans)
 
-# print(ans)
-print(len(ans))
+"""
+順列全探索
+グラフを2次元配列で管理
+"""
