@@ -1,9 +1,17 @@
-import math
+from math import cos, sin, radians
 
-a, b, d = map(float, input().split())
 
-rad = math.radians(d)            # d * math.pi / 180.0
-x = a * math.cos(rad) - b * math.sin(rad)
-y = a * math.sin(rad) + b * math.cos(rad)
-print(x, y)                      # 誤差許容内
-# 必要なら桁数指定: print(f"{x:.10f} {y:.10f}")
+a, b, d = map(int, input().split())
+
+rad = radians(d)  # radianに変換
+x = a * cos(rad) - b * sin(rad)  # xを原点を中心に反時計回りにrad回転
+y = b * cos(rad) + a * sin(rad)  # yを原点を中心に反時計回りにrad回転
+
+print(x, y)
+
+"""
+三角関数
+回転の公式
+任意点周りの回転移動を２通り解説！プログラムで自動化！
+https://youta-blog.com/rotate_point
+"""
