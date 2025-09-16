@@ -1,10 +1,16 @@
 N = int(input())
 A = list(map(int, input().split()))
-ST = [tuple(map(int, input().split())) for _ in range(N - 1)]
+ST = [list(map(int, input().split())) for _ in range(N - 1)]
+# print(A)
+# print(ST)
 
-for i, (S, T) in enumerate(ST):
-    k = A[i] // S
-    A[i] -= k * S          # 省略可（以後使わない）
-    A[i + 1] += k * T
-
+for i in range(N - 1):
+    A[i + 1] += A[i] // ST[i][0] * ST[i][1]
+# print(A)
 print(A[-1])
+
+"""
+一次元DPというより“貪欲な左→右の一回走査”
+通貨は「国 i → i+1」にしか流れません。戻せないので、各 i でできる両替は全部やるのが最適です。
+理由：目的は最終国 N の通貨最大化。途中の通貨を温存しても右へ送れなくなるだけで得しません。
+"""
