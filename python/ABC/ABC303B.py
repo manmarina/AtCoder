@@ -1,16 +1,28 @@
 N, M = map(int, input().split())
-seen = set()  # 隣接で現れた無向ペアを格納
+a = [list(map(int, input().split())) for _ in range(M)]
+# print(a)
 
-for _ in range(M):
-    A = list(map(int, input().split()))
-    for i in range(N - 1):
-        x, y = A[i], A[i + 1]
-        if x > y:
-            x, y = y, x
-        seen.add((x, y))  # setにsetは格納できないので、ソートしたtupleを追加
+friend = [[False] * N for _ in range(N)]
+# print(friend)
 
-print(seen)
+for row in a:
+    for i in range(len(row) - 1):
+        l = row[i] - 1
+        r = row[i + 1] - 1
+        friend[l][r] = True
+        friend[r][l] = True
+# print(friend)
 
-total_pairs = N * (N - 1) // 2
-ans = total_pairs - len(seen)
-print(ans)
+count = 0
+for i in range(N):
+    for j in range(i + 1, N):  # 隣接表の半分だけ走査
+        if i != j:
+            if not friend[i][j]:
+                count += 1
+print(count)
+
+"""
+無向グラフ
+2次元配列（隣接表）を作成
+隣接表の右上の領域のみカウントする
+"""
