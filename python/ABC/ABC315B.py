@@ -1,12 +1,21 @@
 M = int(input())
 D = list(map(int, input().split()))
 
-target = (sum(D) + 1) // 2  # ⌈S/2⌉
+# 累積和配列を作成
+cs = [D[0]]
+for i in range(1, M):
+    cs.append(cs[i - 1] + D[i])
+# print(cs)
 
-acc = 0
-for i, di in enumerate(D, start=1):  # i: 月(1-indexed)
-    if acc + di >= target:
-        day = target - acc
-        print(i, day)
+# 一年の真ん中の日を決定
+mid = (cs[-1] + 1) // 2
+# print(mid)
+
+# 月と日を特定
+for i in range(M):
+    if mid <= cs[i] and i == 0:
+        print(i + 1, mid)
         break
-    acc += di
+    elif mid <= cs[i]:
+        print(i + 1, mid - cs[i - 1])
+        break
