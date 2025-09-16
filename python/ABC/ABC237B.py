@@ -1,8 +1,9 @@
 H, W = map(int, input().split())
-A = [list(map(int, input().split())) for _ in range(H)]
+A = [list(map(int, input().split()))for _ in range(H)]
+# print(A)
 
-# 転置
-AT = list(zip(*A))   # 各要素はタプルになる
-
-for row in AT:
-    print(*row)
+B = []
+for a in zip(*A):
+    B.append(a)
+for b in B:
+    print(*b)
