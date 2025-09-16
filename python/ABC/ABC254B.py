@@ -1,9 +1,12 @@
 N = int(input())
 
-prev = []
-for i in range(1, N + 1):  # 1行目からN行目
-    row = [1] * i          # 端は1で初期化
-    for j in range(1, i - 1):
-        row[j] = prev[j - 1] + prev[j]
-    print(*row)
-    prev = row
+ans = [[] for _ in range(N)]
+# print(ans)
+
+for i in range(N):
+    for j in range(i + 1):
+        if j == 0 or j == i:
+            ans[i].append(1)
+        else:
+            ans[i].append(ans[i - 1][j - 1] + ans[i - 1][j])
+    print(*ans[i])
