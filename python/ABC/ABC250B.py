@@ -1,25 +1,28 @@
 N, A, B = map(int, input().split())
 
-# 1ブロック行（= 横に N 個のブロックが並ぶ）のテンプレを2種類作る
-row_even = []  # 偶数ブロック行: .ブロックから開始
-row_odd = []  # 奇数ブロック行: #ブロックから開始
-
-dot_block = '.' * B
-hash_block = '#' * B
-
-for c in range(N):
-    if c % 2 == 0:
-        row_even.append(dot_block)
-        row_odd.append(hash_block)
+# 1行要素を作成
+dot_block = ""
+hash_block = ""
+for i in range(N):
+    if i % 2 == 0:
+        dot_block += '.' * B
+        hash_block += '#' * B
     else:
-        row_even.append(hash_block)
-        row_odd.append(dot_block)
+        dot_block += '#' * B
+        hash_block += '.' * B
+# print(dot_block)
+# print(hash_block)
 
-row_even = ''.join(row_even)
-row_odd = ''.join(row_odd)
+# N,Aを元にタイルを作成
+for i in range(N):
+    for j in range(A):
+        if i % 2 == 0:
+            print(dot_block)
+        else:
+            print(hash_block)
 
-# ブロック行ごとに A 行ずつ出力
-for r in range(N):
-    line = row_even if r % 2 == 0 else row_odd
-    for _ in range(A):
-        print(line)
+"""
+元は NxN の市松模様（チェッカーボード） を作成します。
+1マスを AxB の同一文字ブロック に拡大した図を出力します。
+市松模様なので、ブロック（マス）は横・縦に交互に「.」と「#」が切り替わります。
+"""
