@@ -1,41 +1,34 @@
 N = int(input())
 
+while N % 2 == 0:
+    N //= 2
+#     print(N)
+# print()
 
-def prime_factorization_dict(n):  # 素因数分解する関数
-    factors = {}
-    i = 2
-    while i * i <= n:
-        while n % i == 0:
-            factors[i] = factors.get(i, 0) + 1
-            n //= i
-        i += 1
-    if n > 1:
-        factors[n] = factors.get(n, 0) + 1
-    return factors
+while N % 3 == 0:
+    N //= 3
+#     print(N)
+# print()
 
-
-# 素因数が2と3だけならYes、そうでなければNo
-prime = prime_factorization_dict(N)
-# print(prime)
-
-if set(prime.keys()) <= {2, 3}:
-    print("Yes")
-else:
-    print("No")
+# print(N)
+print("Yes" if N == 1 else "No")
 
 """
-if set(prime.keys()) in ({2}, {3}, {2, 3}):
+何を判定する問題？
 
-ここで prime.keys() が 空集合 のケースを考えてみましょう。
-例えば N = 1 のとき、素因数分解すると factors = {} になります。
+正整数 NN が N = 2^x * 3^y （x,y ≥ 0)で表せるかを判定します。
 
-1 は 2**0 * 3**0
- と表せるので答えは Yes ですが、
-あなたのコードでは set(prime.keys()) = set() となり、 {2}, {3}, {2,3} のいずれにも一致せず No になってしまいます。
+アルゴリズム（本命）
+「2 と 3 の素因数だけでできているか」を見るだけです。
 
-これが WA の原因です。
+まず while で
+N を 2 で割れるだけ割る
 
-if set(prime.keys()) <= {2, 3}:
+次に while で
+N を 3 で割れるだけ割る
 
-これなら prime.keys() が空集合でも {2,3} の部分集合とみなされるので Yes になります。
+最後に
+N==1 なら Yes、そうでなければ No
+
+端数・例外：N=1 は 2^0 * 3^0 なのでYes
 """
