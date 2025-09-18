@@ -25,7 +25,7 @@ for mask in range(1 << D):
             continue
 
         # ボーナスをもらえない範囲で全部回答してもneedに満たなければパス
-        max_take = pc[i][0] - i
+        max_take = pc[i][0] - 1  # -i としていたのを修正
         v = 100 * (i + 1)
         if v * max_take < need:
             continue
@@ -40,7 +40,9 @@ for mask in range(1 << D):
 print(min(a for _, a in ans))
 
 """
-ざっくり言うと「bit 全探索 + 貪欲での穴埋め」です。
+ビット全探索
+
+ざっくり言うと「bit全探索 + 貪欲での穴埋め」です。
 ポイントは「ボーナスは“全部解いたとき”しか入らない」ので、
 “全部解く集合”をまず決め打ちし、足りない分を高得点問題から貪欲に埋める、
 という二段構えにします。
