@@ -27,6 +27,7 @@ for mask in range(1 << N):  # 正直者候補集合
         if not ok:  # 二重ブレイクのために必要
             break
     if ok:  # 二重ブレイクしたあとに実行させないために必要
+        # 正直者が0人のときはかならず追加される
         ans.append(bin(mask).count("1"))
 
 # print(ans)
@@ -34,6 +35,9 @@ print(max(ans))
 
 
 """
+ビット全探索
+bit全探索
+
 アルゴリズムの要点
 
 入力の整理
