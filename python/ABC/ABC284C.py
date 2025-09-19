@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 input = sys.stdin.readline
 N, M = map(int, input().split())
@@ -12,7 +13,7 @@ for _ in range(M):
     G[b].append(a)
 # print(G)
 
-# dfs開始準備
+# bfs開始準備
 seen = [False] * N
 comp = 0
 
@@ -22,20 +23,21 @@ for s in range(N):
         continue
     comp += 1
 
-    # dfs部分
+    # bfs部分
     seen[s] = True
-    stack = [s]
-    while stack:
-        v = stack.pop()
+    q = deque([s])
+    while q:
+        v = q.popleft()
         for nv in G[v]:
             if not seen[nv]:
                 seen[nv] = True
-                stack.append(nv)
+                q.append(nv)
 
 print(comp)
 
 """
-反復DFS
+BFS
+(反復DFSとはスタック、キューの違いのみ）
 
 「無向グラフの連結成分の個数」を数える問題です。
 必要なテクは次のいずれか：
