@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 N = int(sys.stdin.readline())
 edges = []
@@ -25,27 +26,27 @@ for a, b in edges:
     G[ib].append(ia)
 # print(G)
 
-# dfs開始準備
+# bfs開始準備
 start = idx[1]
 visited = [False] * K
 ans = 1
 
-# dfs部分
+# bfs部分
 visited[start] = True
-stack = [start]
-while stack:
-    v = stack.pop()
-    ans = max(ans, vals[v])
+q = deque([start])
+while q:
+    v = q.popleft()
+    ans = max(ans, vals[v])  # 圧縮→元の値に戻して最大更新
     for nv in G[v]:
         if not visited[nv]:
             visited[nv] = True
-            stack.append(nv)
+            q.append(nv)
 
 print(ans)
 
 """
-反復DFS版
-（再帰DFSとの違いはDFS部分のみ）
+BFS版
+（反復DFSとの違いはスタックとキューの違いのみ）
 
 この問題は、
     数直線上の整数を頂点
