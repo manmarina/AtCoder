@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(1 << 25)
+from collections import deque
 
 # 入力
 N, D = map(int, sys.stdin.readline().split())
@@ -22,28 +22,34 @@ def is_connected(i: int, j: int) -> bool:
     return dx * dx + dy * dy <= D2
 
 
-# DFS
-seen = [False] * N
-
-
-def dfs(v: int) -> None:
-    seen[v] = True
-    for v2 in range(N):
-        if seen[v2]:
-            continue
-        if is_connected(v, v2):
-            dfs(v2)
+def bfs(s: int, dist: list[int]) -> None:
+    """
+    頂点 s を始点とする BFS
+    """
+    dist[s] = 0
+    q = deque([s])
+    while q:
+        v = q.popleft()
+        for v2 in range(N):
+            if dist[v2] != -1:
+                continue
+            if not is_connected(v, v2):
+                continue
+            dist[v2] = dist[v] + 1
+            q.append(v2)
 
 
 # 実行
-dfs(0)
+dist = [-1] * N  # 再帰DFS版のseenと同じ役割
+bfs(0, dist)
+# print(dist)
 
 # 出力
 for v in range(N):
-    print("Yes" if seen[v] else "No")
+    print("Yes" if dist[v] != -1 else "No")
 
 """
-再帰DFS
+BFS
 けんちょん
 
 この問題は、まず「グラフの問題だと思えるか」どうかが一つの壁になるかもしれないですね。
@@ -54,5 +60,7 @@ for v in range(N):
 こうして作ったグラフにおいて、各頂点が頂点 1 とつながっているかどうかを調べればよいです。
 （けんちょん）
 
-グラフを作成せず、dfsで直接感染距離かどうか計算する点が初回コードと異なる
+グラフを作成せず、bfsで直接感染距離かどうか計算する点が初回コードと異なる
+（初回コードのほうが直感的）
+再帰DFS版とはseen配列（bfsではdist配列）の値が異なるが、効用は同じ
 """
