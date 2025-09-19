@@ -1,5 +1,4 @@
 import sys
-sys.setrecursionlimit(10**6)
 
 N = int(sys.stdin.readline())
 edges = []
@@ -26,26 +25,27 @@ for a, b in edges:
     G[ib].append(ia)
 # print(G)
 
-# dfs呼び出し準備
+# dfs開始準備
 start = idx[1]
 visited = [False] * K
 ans = 1
 
-
-def dfs(v):
-    global ans
-    visited[v] = True
+# dfs部分
+visited[start] = True
+stack = [start]
+while stack:
+    v = stack.pop()
     ans = max(ans, vals[v])
     for nv in G[v]:
         if not visited[nv]:
-            dfs(nv)
+            visited[nv] = True
+            stack.append(nv)
 
-
-dfs(start)
 print(ans)
 
 """
-再帰DFS版
+反復DFS版
+（再帰DFSとの違いはDFS部分のみ）
 
 この問題は、
     数直線上の整数を頂点
