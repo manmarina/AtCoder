@@ -1,20 +1,15 @@
 N, T = map(int, input().split())
 t = list(map(int, input().split()))
 
-water = [T]
-for i in range(1, N):
-    d = t[i] - t[i - 1]  # 前回ボタンを押してからの経過時間
-    if d < T:  # 経過時間がお湯の出る長さより短い時
-        water[i - 1] = d  # 前回の湯量を減らす
-    water.append(T)
+ans = T  # このTは最後の1回分のT!!（先に加算している!）
+for i in range(N - 1):
+    ans += min(T, t[i + 1] - t[i])
 
-# print(water)
-print(sum(water))
-
+print(ans)
 
 """
 シミュレーション
-自力解
+チャッピー
 
 必要なのは“アルゴリズム”というより 数直線上の区間の和の長さ を一次元でスキャンするだけのテクニックです。
 
