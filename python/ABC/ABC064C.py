@@ -1,35 +1,30 @@
 N = int(input())
-A = list(map(int, input().split()))
+A = list(map(int, input().split()))  # ← まとめて読み取る
 
-color = [0] * 9
+se = set()  # 3200 以下で登場する色の種類数
+over_num = 0  # 3200 以上の人数
+
 for a in A:
-    if a < 400:
-        color[0] = 1
-    elif a < 800:
-        color[1] = 1
-    elif a < 1200:
-        color[2] = 1
-    elif a < 1600:
-        color[3] = 1
-    elif a < 2000:
-        color[4] = 1
-    elif a < 2400:
-        color[5] = 1
-    elif a < 2800:
-        color[6] = 1
-    elif a < 3200:
-        color[7] = 1
+    if a >= 3200:
+        over_num += 1
     else:
-        color[8] += 1
+        se.add(a // 400)  # 400で割った値を色としてseに格納
+# print(se)
 
-# print(color)
-mn = sum(color[:-1])
+Max = len(se) + over_num
+
 # ここが重要!! 全員が3200点以上のとき、最小値は0ではなくて1になることを見逃さない！！
-print(1 if mn == 0 else mn, sum(color))
+if len(se) == 0:
+    Min = 1
+else:
+    Min = len(se)
+
+print(Min, Max)
 
 """
 場合分け系
-自力解(WA けんちょんのコメントで原因がわかった)
+けんちょん
+400で割った値を色としてseに格納する場合分けが見事
 
 N人がいてそれぞれの AtCoder レーティングが与えれている。
 今、レーティング 3200 以上の人は自由に色を変えることができる。このとき、N
