@@ -1,22 +1,24 @@
+import sys
+
+input = sys.stdin.readline
 N = int(input())
-S = [int(input()) for _ in range(N)]
+A = [int(input()) for _ in range(N)]
+S = sum(A)
+if S % 10 != 0:
+    print(S)
+    exit()
 
-S.sort()
-total = sum(S)
-if total % 10 == 0:
-    for s in S:
-        if s % 10 == 0:
-            continue
-        total -= s
-        break
-    else:
-        total = 0
-
-print(total)
+# 10で割り切れない札の最小を探す
+m = min((x for x in A if x % 10 != 0), default=None)
+if m is None:
+    print(0)
+else:
+    print(S - m)
 
 """
 貪欲法(Greedy)系
-自力解
+チャッピー
+記法は異なるが同じロジック
 
 合計を最大にしたい → まず全部取るのが最適。
 ただし「10の倍数」という制約に引っかかったときだけ、1枚外せばよい。
