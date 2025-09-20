@@ -34,10 +34,15 @@ for i in range(0, N):
 
 while 1:
     idx2 = idx.copy()
-    for i in idx:
+    """
+    for i in idxだとイテレーション中にサイズが変わるのでRE
+    （RuntimeError: Set changed size during iteration）
+    """
+    for i in idx2:  # ←ここ
         scan(i)
     if idx2 == idx:
         break
 
 # print(idx)
+# print(ans)
 print(ans.count(True))
