@@ -1,35 +1,29 @@
-from collections import defaultdict
+import sys
 
+N = int(sys.stdin.readline())
+S = [sys.stdin.readline().strip() for _ in range(N)]
 
-n = int(input())
-S = [input() for _ in range(n)]
+# S[i] に含まれる各文字（a..z）の個数を数える
+nums = [[0] * 26 for _ in range(N)]
+for i in range(N):
+    for ch in S[i]:
+        nums[i][ord(ch) - ord('a')] += 1
+print(nums)
 
-# 文字列ごとにdefaultdictを作成してlistに格納
-ddl = []
-for word in S:
-    temp = defaultdict(int)
-    for w in word:
-        temp[w] += 1
-    ddl.append(temp)
-# print(ddl)
+# 各文字について、全文字列での最小出現回数をとって連結
+res_parts = []
+for i in range(26):
+    mi = nums[0][i]
+    for j in range(1, N):
+        mi = min(mi, nums[j][i])
+    res_parts.append(chr(ord('a') + i) * mi)
 
-ans = []
-for k in ddl[0]:  # 最初の文字列のddのキーで検索
-    if all(k in dd for dd in ddl[1:]):  # 全ての文字列のddにキーが含まれていたら
-        mn = min(dd[k] for dd in ddl)  # 一番少ない数を検索してmnに格納
-        ans.extend(k * mn)  # キーをmn個格納 (append ではなく extendなのがポイント)
-# print(ans)
-
-ans.sort()
-print(*ans, sep='')
+print(''.join(res_parts))
 
 """
-連想配列
-AtCoder本で解いたときのコードを参照
+バケット
+けんちょん
 
-文字列ごとにddを作成してddlに格納
-ddlの最初のddのキーを全てのddで検索
-すべてに含まれていたら、
-要素の最小値を取得
-ansにキーを要素の最小値個格納する（extend）
+文字列ごとの26文字のバケットをnumsに格納
+numsの26文字を走査して、最小文字数個res_partsに格納する
 """
