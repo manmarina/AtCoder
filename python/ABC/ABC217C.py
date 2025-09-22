@@ -1,15 +1,16 @@
 N = int(input())
-P = [0] + list(map(int, input().split()))  # 1-index
+P = list(map(int, input().split()))
 
-Q = [0] * (N + 1)  # 1-index
-for i in range(1, N + 1):
-    Q[P[i]] = i
+ans = [0] * (N + 1)          # 1-indexed で扱う
+for i, p in enumerate(P, start=1):
+    ans[p] = i               # Q_{p} = i
 
-print(*Q[1:])
+print(*ans[1:])              # 1..N を出力
 
 """
 基本実装問題
-自力解
+チャッピー
+自力解と同じロジック
 
 与えられた順列 P の逆順列 Q を作るだけの基本実装問題です。
 配列の逆写像（順列の逆関数）：一度の走査で作れます。
