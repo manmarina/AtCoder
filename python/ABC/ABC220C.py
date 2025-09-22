@@ -2,19 +2,20 @@ N = int(input())
 A = list(map(int, input().split()))
 X = int(input())
 
-div, mod = divmod(X, sum(A))
-cs = 0
-cnt = 0
-for a in A:
-    cs += a
-    cnt += 1
-    if mod < cs:
-        print(div * len(A) + cnt)
+S = sum(A)
+t = X // S
+R = X - t * S
+
+cur = 0
+for i, a in enumerate(A, start=1):  # 1-indexed
+    cur += a
+    if cur > R:
+        print(t * N + i)
         break
 
 """
 累積和
-自力解
+チャッピー
 
 #1：総和（合計）で“周回”をまとめて処理
 
