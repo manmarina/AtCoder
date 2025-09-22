@@ -1,47 +1,37 @@
-N, M = map(int, input().split())
-A = [0] + [input() for _ in range(2 * N)]
-rankl = [i for i in range(1, 2 * N + 1)]  # ランキングリスト
-rankd = {i: 0 for i in range(1, N * 2 + 1)}  # ランキングリストを作成するための辞書
-# print(A)
-# print(rankl)
-# print(rankd)
-
-
-def janken(jk1, jk2):  # じゃんけんを判定する関数
-    if jk1 == jk2:
+def judge(a: str, b: str) -> int:
+    """a,b は 'G','C','P'. 勝者: a=1, b=-1, draw=0 を返す。"""
+    if a == b:
         return 0
-    if (jk1, jk2) in (('G', 'C'), ('C', 'P'), ('P', 'G')):
+    if (a, b) in (('G', 'C'), ('C', 'P'), ('P', 'G')):
         return 1
-    else:
-        return 2
+    return -1
 
 
-for j in range(M):
-    # (1,2),(3,4)...の順に取り出し、(1,2)を対戦、(3,4)を対戦、を繰り返す
-    for i in range(0, 2 * N, 2):
-        # print(i, i + 1)
-        rk1 = rankl[i]  # ランキングリストから取り出す
-        jk1 = A[rk1][j]
-        rk2 = rankl[i + 1]  # ランキングリストから取り出す
-        jk2 = A[rk2][j]
-        # print(jk1, jk2)
+N, M = map(int, input().split())
+S = [input().strip() for _ in range(2 * N)]  # hands[i][r]
 
-        res = janken(jk1, jk2)
-        if res == 1:  # jk1が勝ったら
-            rankd[rk1] += 1
-        elif res == 2:  # jk2が勝ったら
-            rankd[rk2] += 1
-        # print(rankd)
+wins = [0] * (2 * N)
+order = list(range(2 * N))  # 現在の順位順の並び（参加者番号）
 
-        # ランキング辞書をソートしてランキングリストを作成
-        rankl = sorted(rankd.keys(), key=lambda k: (-rankd[k], k))
-        # print(rankl)
+for r in range(M):
+    # 今ラウンドの対戦
+    for k in range(N):
+        i = order[2 * k]
+        j = order[2 * k + 1]
+        res = judge(S[i][r], S[j][r])
+        if res == 1:
+            wins[i] += 1
+        elif res == -1:
+            wins[j] += 1
+    # ラウンド終わりに並べ替え
+    order.sort(key=lambda x: (-wins[x], x))
 
-print(*rankl, sep='\n')
+# 出力（1-indexed）
+print(*[i + 1 for i in order], sep='\n')
 
 """
 シミュレーション系
-自力解
+チャッピー
 
 やることは「じゃんけん総当たりのスイス式トーナメント」を素直にシミュレーションするだけです。
 必要テク：シミュレーション／安定ソート（多キーソート）／実装の丁寧さ。
@@ -56,4 +46,20 @@ print(*rankl, sep='\n')
     勝ったら勝数 +1、あいこは増えない。
     ラウンド終了後に、勝数の降順→元の番号の昇順で並べ替え、次ラウンドの組み合わせを作る。
     M ラウンド後の最終順位を出力。
+
+アルゴリズム（実装方針）
+状態の持ち方
+    order: 今ラウンドの並び（参加者の番号のリスト）。初期は [0, 1, ..., 2N-1]。
+    wins[i]: 参加者 i の勝数。
+    hands[i][r]: 参加者 i のラウンド r で出す手（'G','C','P' など）。
+
+1ラウンドの進め方
+    並び order の偶数番目と奇数番目をペアにして試合。
+    そのラウンドの手を取り出して勝敗判定、勝者の wins を +1。
+    ここで order は触らない（ラウンド中に順番を変えない）。
+
+ラウンド終了後の並べ替え
+    order.sort(key=lambda i: (-wins[i], i))
+    「勝数降順 → 番号昇順」。Python のソートは安定なので、同勝数の中の相対順は自然に番号順に。
+    勝敗判定の実装
 """
