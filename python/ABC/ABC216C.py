@@ -1,19 +1,20 @@
 N = int(input())
 
-ans = []
-while N > 0:
+ops = []
+while N > 0:           # ← 0 になるまで戻す（開始は x=0）
     if N % 2 == 1:
+        ops.append('A')  # 直前は N-1
         N -= 1
-        ans.append('A')
     else:
+        ops.append('B')  # 直前は N//2
         N //= 2
-        ans.append('B')
 
-print(*ans[::-1], sep='')
+print(''.join(reversed(ops)))
 
 """
 後ろから貪欲法
-自力解
+チャッピー
+自力解と同じロジック
 
 前向きに作るより“逆操作で N から 1 へ戻る”のがラクな典型です。
 
