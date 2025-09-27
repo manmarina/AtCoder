@@ -1,35 +1,40 @@
+import sys
+
+input = sys.stdin.readline
 N, Q = map(int, input().split())
 A = list(map(int, input().split()))
-query = [list(map(int, input().split())) for _ in range(Q)]
-# print(A)
-# print(query)
 
-cs = [0] + [A[0]]
-for i in range(1, N):
-    cs.append(cs[i] + A[i])
-print(cs)
+# 二重配列と累積和
+# 区間の長さは 最大でも N（配列の全体）です。
+# 配列を 2 回並べておけば、必ず 1 本の連続区間として取れる。
+B = A + A
+pref = [0] * (2 * N + 1)
+for i, x in enumerate(B, 1):
+    pref[i] = pref[i - 1] + x
+# print(pref)
 
-shift = 0
-for q in query:
-    if q[0] == 1:
-        shift += q[1]
-        print(shift)
-
+off = 0  # 先頭（0-index）が元配列のどこか
+out = []
+for _ in range(Q):
+    t, *rest = map(int, input().split())
+    if t == 1:
+        c = rest[0]
+        off = (off + c) % N  # Nで回転
     else:
-        l = q[1] - 1 + shift
-        r = q[2] + shift
-        if l > N:
-            l = l % N
-            r = r % N
-            print(cs[r] - cs[l] + A[N] * (r - l))
-            # print(l, r)
-        if r > N:
-            ll = r % N
-            r = N
-            print(cs[r] - cs[l] + A[N] * (r - l))
-            # print(l, r, ll)
-        else:
-            print(cs[r] - cs[l])
-            # print(l, r)
+        l, r = rest
+        length = r - l + 1
+        start = (off + (l - 1)) % N  # Nで回転
+        s = pref[start + length] - pref[start]
+        out.append(str(s))
+print("\n".join(out))
 
-        # print(cs[r] - cs[l])
+"""
+二重配列の累積和
+チャッピー
+
+回転は“配列を動かさずに”先頭位置のオフセットだけ持つ
+累積和は “二重配列” に乗せる
+
+https://atcoder.jp/contests/abc425/tasks/abc425_c
+https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/68d7e92f-bc70-8333-90e3-a9d04186068d
+"""
