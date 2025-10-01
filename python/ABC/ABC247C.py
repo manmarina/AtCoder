@@ -1,17 +1,24 @@
-def build(n):
+import sys
+sys.setrecursionlimit(1 << 20)
+
+
+def emit(n):
     if n == 1:
-        return [1]
-    left = build(n - 1)
-    return left + [n] + left
+        print(1, end=' ')
+        return
+    emit(n - 1)
+    print(n, end=' ')
+    emit(n - 1)
 
 
 N = int(input())
-print(*build(N))
+emit(N)
+print()  # 改行
 
 """
 構築系問題(再帰)
 チャッピー
-配列を使用
+直接print
 
 ざっくり言うと「再帰で左右対称に積むだけ」の構築問題です。
 
