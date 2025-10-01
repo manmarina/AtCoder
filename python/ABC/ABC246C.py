@@ -13,6 +13,8 @@ for a in A:
         else:
             ans.append(a - K * X)
             K = 0
+    else:  # この処理が抜けていた
+        ans.append(a)
 # print(ans)
 # print(sum(ans))
 # print(K)
@@ -28,7 +30,7 @@ print(sum(ans))
 
 """
 貪欲法（Greedy）+ソート
-自力解 WA
+チャッピーの助言でAC
 
 クーポン1枚で「好きなAiからXを引く（負にならない）」。
 合計K枚で配列の総和を最小にしたい。
