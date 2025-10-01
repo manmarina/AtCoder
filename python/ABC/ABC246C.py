@@ -1,36 +1,25 @@
+import sys
+
+input = sys.stdin.readline
 N, K, X = map(int, input().split())
 A = list(map(int, input().split()))
 
-A.sort(reverse=True)
-# print(A)
-ans = []
-for a in A:
-    if K > 0:
-        div, mod = divmod(a, X)
-        if div < K:
-            ans.append(mod)
-            K -= div
-        else:
-            ans.append(a - K * X)
-            K = 0
-    else:  # この処理が抜けていた
-        ans.append(a)
-# print(ans)
-# print(sum(ans))
-# print(K)
+# 1) まとめて引けるだけ引く
+for i in range(N):
+    if K == 0:
+        break
+    t = min(K, A[i] // X)  # tはクーポン使用数
+    A[i] -= t * X
+    K -= t
 
-ans.sort(reverse=True)
-# print(ans)
-for i, a in enumerate(ans):
-    if K > 0:
-        ans[i] = 0
-        K -= 1
-# print(ans)
-print(sum(ans))
+# 2) 残りKで大きいものから0にする
+A.sort(reverse=True)
+ans = sum(A[K:])  # 先頭use個は実質0に
+print(ans)
 
 """
 貪欲法（Greedy）+ソート
-チャッピーの助言でAC
+チャッピー
 
 クーポン1枚で「好きなAiからXを引く（負にならない）」。
 合計K枚で配列の総和を最小にしたい。
