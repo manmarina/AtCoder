@@ -1,24 +1,18 @@
 N = int(input())
-
-pos = [i for i in range(N.bit_length()) if (N >> i) & 1]
-k = len(pos)
-# print(pos)
-# print(k)
-
+s = N
 ans = []
-for mask in range(1 << k):        # 0..2^k-1
-    x = 0
-    for j in range(k):
-        if (mask >> j) & 1:
-            x |= 1 << pos[j]      # 選んだ位置のビットを立てる
-    ans.append(x)
+while True:
+    ans.append(s)
+    if s == 0:
+        break
+    s = (s - 1) & N  # 次の submask
 
-# print(ans)
-ans.sort()
-print(*ans, sep="\n")
+print(ans)
+print(*sorted(ans), sep="\n")
+
 
 """
-ビット全探索（bit全探索）
+ビット全探索（bit全探索） サブマスク(submask)
 チャッピー
 
 問題文の理解が難しい
@@ -28,6 +22,12 @@ print(*ans, sep="\n")
 入力例3では
 [19, 39, 59]
 ビットが3つなので、部分集合は 2^3 = 8通り あります。
+
+「mask = 集合」
+「submask = 部分集合」
+
+s = (s - 1) & N
+を繰り返すと全てのサブマスクパターンを辿れる（仕組みはよくわからない。。）
 
 https://atcoder.jp/contests/abc269/tasks/abc269_c
 https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/68e03e82-1670-8323-b3b1-1002ba0c47c6
