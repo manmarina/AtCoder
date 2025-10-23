@@ -9,15 +9,21 @@ for _ in range(Q):
         perm[x].add(y)
     elif q[0] == 2:
         _, x = q
-        for i in range(1, M + 1):
-            perm[x].add(i)
+        perm[x].add("all")  # O(1)で追加できるように改善
     else:  # q[0] == 3
         _, x, y = q
-        if y in perm[x]:
+        if y in perm[x] or "all" in perm[x]:  # "all"がある場合のチェックを追加
             print("Yes")
         else:
             print("No")
 
 """
-TLE
+計算量を削減したクエリ処理
+TLE -> AC
+
+すべてのページの閲覧権限を愚直に追加するとO(M)なので、全体でO(QM)となりTLE
+そこで、"all"というフラグを追加してO(1)に改善、全体でO(Q)となりAC
+
+https://atcoder.jp/contests/abc403/tasks/abc403_c
+https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/68f9bda9-6bb8-8321-983e-2de1061f5bb7
 """
