@@ -9,7 +9,7 @@ python/.venv-win/**
 requirements.txt
 .DS_Store
 input.txt
-temp.py
+temp*
 
 *.exe
 *.out

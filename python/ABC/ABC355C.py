@@ -1,49 +1,60 @@
 N, T = map(int, input().split())
-A = list(map(int, input().split()))
+As = list(map(int, input().split()))
 
-grid = [[0] * N for _ in range(N)]
+# 各行・各列・斜め方向の、穴の空いた集合を管理する
+# lines[0..N-1]        : 各行
+# lines[N..2N-1]       : 各列
+# lines[2N]            : 左上→右下の斜め
+# lines[2N+1]          : 右上→左下の斜め
+lines = [set() for _ in range(N * 2 + 2)]
 
-for i in range(1, N + 1):
-    for j in range(1, N + 1):
-        grid[i - 1][j - 1] = N * (i - 1) + j
-# print(grid)
 
-bingo = set()
-# bingo横ライン
-for row in grid:
-    bingo.add(frozenset(row))  # setに格納するためにfrozensetにする
+def play(line_id, val, turn):
+    lines[line_id].add(val)  # bingoカードに穴を開ける
 
-# bingo縦ライン
-for j in range(N):
-    bingo.add(frozenset(grid[i][j] for i in range(N)))
+    if len(lines[line_id]) >= N:  # このラインで穴がN個空いたら
+        print(turn)
 
-# bingo斜め（左上→右下）
-bingo.add(frozenset(grid[i][i] for i in range(N)))
+        # print(lines)
+        exit()
 
-# bingo斜め（右上→左下）
-bingo.add(frozenset(grid[N - 1 - i][i] for i in range(N)))
-# print(bingo)
 
-# ### ここが重い ###
-# bingoチェック
-for i in range(N, T + 1):  # N以上からチェック開始
-    turn = set(A[:i])
-    # print(turn)
+# Tターン分の入力を読む
+for turn in range(1, T + 1):
+    A = As[turn - 1]
+    x = (A - 1) // N  # Aの値をx座標に変換
+    y = (A - 1) % N  # Aの値をy座標に変換
 
-    for b in bingo:  # bingoセットからbingoパターンを取り出す
-        # print(b)
-        if b <= turn:  # turnの中にbingoパターンを発見したら
-            print(i)  # 抽選回数を表示
-            exit()
-# ### ここまでが重い ###
+    # linesは(行、列、左上→右下 の斜め,右上→左下 の斜め)の順で格納されている
+    # 制約より、Ai<=N^2なので、必ずどこかに格納できる
+    # 行 x
+    play(x, A, turn)  # xはlinesの格納位置
 
-# bingoしなかったとき
-print("-1")
+    # 列 y
+    play(N + y, A, turn)  # N+yはlinesの格納位置
+
+    # 左上→右下 の斜め
+    if x == y:
+        play(2 * N, A, turn)  # 2*xはlinesの格納位置
+
+    # 右上→左下 の斜め
+    if x + y == N - 1:
+        play(2 * N + 1, A, turn)  # 2*x+1はlinesの格納位置
+
+# ビンゴしなかった場合
+print(-1)
+# print(lines)
 
 """
-TLE
-チャッピーの見積もりで、全体の計算量はO(N^2 + T^2 + T·N^2)
-Tは最大2x10^5なので、全然間に合わない。
+計算量を削減したシミュレーション
+
+けんちょん
+https://drken1215.hatenablog.com/entry/2024/07/08/004128
+ビンゴしたかどうかO(1)で確認できる判定用のsetを8ライン分作成
+ターンごとにラインに数字を追加してゆき、setの長さがNに達したらビンゴ
+
+初期化 O(N) + メインループ O(T)
+-> 合わせて 時間計算量は O(N + T) に改善
 
 https://atcoder.jp/contests/abc355/tasks/abc355_c
 https://chatgpt.com/c/68fb2c1f-c294-8323-beed-4683776be355
