@@ -1,35 +1,48 @@
-import sys
-
-input = sys.stdin.readline
 H, W = map(int, input().split())
-G = [list(input().strip()) for _ in range(H)]
+G = [input() for _ in range(H)]
+# print(G)
 
-# 方向マップ
-dir2d = {'U': (-1, 0), 'D': (1, 0), 'L': (0, -1), 'R': (0, 1)}
 
-visited = [[False]*W for _ in range(H)]
-i, j = 0, 0  # 0-index の (0,0) がスタート
+def is_outside(x, y):
+    if not 0 <= x < H or not 0 <= y < W:
+        return True
+    return False
 
+
+i = 0
+j = 0
+visited = set()  # 訪問管理するset
 while True:
-    if visited[i][j]:
-        print(-1)
-        break
-    visited[i][j] = True
+    if (i, j) in visited:  # ループ検出して終了
+        print("-1")
+        exit()
+    visited.add((i, j))  # 現在の座標をsetに追加
 
-    di, dj = dir2d[G[i][j]]
-    ni, nj = i + di, j + dj
-
-    # 外に出るなら今の位置を 1-index で出力
-    if not (0 <= ni < H and 0 <= nj < W):
-        print(i+1, j+1)
-        break
-
-    i, j = ni, nj
+    # コンベア移動して壁なら終了
+    if G[i][j] == 'U':
+        if is_outside(i - 1, j):
+            print(i + 1, j + 1)
+            exit()
+        i -= 1
+    elif G[i][j] == 'D':
+        if is_outside(i + 1, j):
+            print(i + 1, j + 1)
+            exit()
+        i += 1
+    elif G[i][j] == 'L':
+        if is_outside(i, j - 1):
+            print(i + 1, j + 1)
+            exit()
+        j -= 1
+    else:  # G[i][j] == 'R':
+        if is_outside(i, j + 1):
+            print(i + 1, j + 1)
+            exit()
+        j += 1
 
 """
-カーソル系（グリッド走査）
-チャッピー
+カーソル系
+以前に解いているのに気づかずにもう一度解いた
 
 https://atcoder.jp/contests/abc265/tasks/abc265_c
-https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/68df4072-32d0-8323-8628-f71e776a97b0
 """
