@@ -1,59 +1,46 @@
 N, M = map(int, input().split())
-A = [list(map(int, input().split())) for _ in range(N)]
+B = [input().split() for _ in range(N)]
+# print(B)
 
-# 最上行が週をまたがないか（行頭の曜日 + (M-1) <= 6）
-if (A[0][0] - 1) % 7 + (M - 1) > 6:  # <- この条件の実装が見事！！
-    print("No")
-    exit()
+# # 正解となる行列の確認
+# for i in range(1, 10 + 1):
+#     for j in range(1, 7 + 1):
+#         print((i - 1) * 7 + j, end=' ')
+#     print()
 
-# 横方向チェック（連続 + 同一週内は上述の条件で担保済み）
-for i in range(N):
-    for j in range(M - 1):
-        if A[i][j + 1] != A[i][j] + 1:
-            print("No")
-            exit()
+# 先頭数値の周期性確認
+head = int(B[0][0])
+if M == 1:
+    if not (0 <= head % 7 <= 6):
+        print("No")
+        exit()
+else:
+    if not (1 <= head % 7 <= 8 - M):
+        print("No")
+        exit()
 
-# 縦方向チェック（+7）
-for i in range(N - 1):
-    for j in range(M):
-        if A[i + 1][j] != A[i][j] + 7:
-            print("No")
-            exit()
+# 列チェック
+for i in range(1, N):
+    pre = int(B[i - 1][0])
+    cur = int(B[i][0])
+    if cur != pre + 7:
+        print("No")
+        exit()
+
+# 行チェック
+for j in range(1, M):
+    pre = int(B[0][j - 1])
+    cur = int(B[0][j])
+    if cur != pre + 1:
+        print("No")
+        exit()
 
 print("Yes")
 
 """
-行列Aを7行、7列切り出してみた
+数学的な気づき系
+回答済みであることに気づかずリトライ
+カレンダーの周期性が当てはまるかの確認
 
-for i in range(1, 7 + 1):
-    temp = []
-    for j in range(1, 7 + 1):
-        temp.append((i - 1) * 7 + j)
-    print(*temp, sep=' ')
-
-1 2 3 4 5 6 7
-8 9 10 11 12 13 14
-15 16 17 18 19 20 21
-22 23 24 25 26 27 28
-29 30 31 32 33 34 35
-36 37 38 39 40 41 42
-43 44 45 46 47 48 49
-"""
-
-"""
-基本実装問題
-チャッピー
-
-カレンダーは 1 週間が 7 日。同じ行では 1 ずつ増えるが、週をまたがない。
-という条件を実装する問題。
-
-具体的な判定手順
-まず 最上行の行頭 だけで「週をまたがない」ことをチェック：
-    ((A[0][0]-1) % 7) + (M-1) <= 6 でなければ No。 <- この条件の実装が見事！！
-
-すべてのセルに対して次を確認：
-    横：A[i][j+1] == A[i][j] + 1
-    縦：A[i+1][j] == A[i][j] + 7
-
-全部満たせば Yes、一つでも崩れたら No。
+https://atcoder.jp/contests/abc225/tasks/abc225_c
 """
