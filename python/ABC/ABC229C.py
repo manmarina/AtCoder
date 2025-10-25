@@ -3,7 +3,7 @@ import sys
 input = sys.stdin.readline
 N, W = map(int, input().split())
 AB = [tuple(map(int, input().split())) for _ in range(N)]  # (a, b)
-print(AB)
+# print(AB)
 
 # おいしさ a が大きい順に
 AB.sort(key=lambda x: x[0], reverse=True)
