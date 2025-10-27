@@ -15,13 +15,13 @@ for _ in range(M):
 
 # bfs開始準備
 seen = [False] * N
-comp = 0
+comp = 0  # 連結成分の個数をカウント
 
 # 全ての頂点からスタート
 for s in range(N):
     if seen[s]:
         continue
-    comp += 1
+    comp += 1  # sが未訪問なら、連結成分のカウントを増やしてbfsスタート
 
     # bfs部分
     seen[s] = True
@@ -44,4 +44,7 @@ BFS
     DFS（深さ優先探索）
     BFS（幅優先探索）
     Union-Find（Disjoint Set Union, DSU）
+
+https://atcoder.jp/contests/abc284/tasks/abc284_c
+https://chatgpt.com/c/68cca5bb-2638-8327-9ad9-1be939abf0c2
 """
