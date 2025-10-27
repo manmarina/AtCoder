@@ -4,32 +4,30 @@ from collections import defaultdict
 N = int(input())
 S = input()
 
-if N == 1:  # N=1のとき1を表示して早期終了
-    print(1)
-    exit()
 
-cnt = 1
-dd = defaultdict(int)
+# 各文字ごとの最長連続長を記録
+len_list = defaultdict(int)
 
-for i in range(1, len(S)):  # ひとつ前の文字と比較
-    pre = S[i - 1]
-    cur = S[i]
-    if pre == cur:  # 一緒ならカウントを増やす
-        cnt += 1
-    else:  # 違ったら、ddに格納したカウントと比較して、より大きければ更新
-        dd[pre] = max(dd[pre], cnt)
-        cnt = 1
+# ランレングス圧縮
+i = 0
+while i < N:
+    c = S[i]
+    j = i
+    while j < N and S[j] == c:
+        j += 1
+    # 区間 [i, j) が文字 c の連続部分
+    len_list[c] = max(len_list[c], j - i)
+    i = j
 
-# 最後の文字
-last = S[-1]  # forループでは最後の文字の分が更新されないので
-dd[last] = max(dd[last], cnt)  # ddに格納したカウントと比較して、より大きければ更新
-
-# print(dd)
-print(sum(v for v in dd.values()))
+# 各文字の最長長さを合計
+res = sum(v for v in len_list.values())
+print(res)
 
 """
-自力解
-ランレングス圧縮を意識せずに自力実装
+ランレングス圧縮
+けんちょん
+https://drken1215.hatenablog.com/entry/2023/11/21/032500
+ランレングス圧縮の典型題！
 
 https://atcoder.jp/contests/abc329/tasks/abc329_c
 """
