@@ -5,33 +5,30 @@ N, A, B = map(int, input().split())
 S = input()
 
 # aとbの累積和配列を作成
-# appendするよりも速い
-Xa = [0] * (N + 1)
-Xb = [0] * (N + 1)
-for i, ch in enumerate(S, 1):
-    Xa[i] = Xa[i - 1] + (ch == 'a')
-    Xb[i] = Xb[i - 1] + (ch == 'b')
-print("Xa", Xa)
-print("Xb", Xb)
+Xa = [0]
+Xb = [0]
+for i in range(N):
+    if S[i] == 'a':
+        Xa.append(Xa[i] + 1)
+        Xb.append(Xb[i])
+    else:  # S[i] == 'b':
+        Xa.append(Xa[i])
+        Xb.append(Xb[i] + 1)
+# print("Xa", Xa)
+# print("Xb", Xb)
 
-# 二分探索
-ans = 0
-for i in range(N):  # 開始の接頭辞位置 終了はN-1まで!!
-    na = A + Xa[i]  # "a" が A 個以上になるための閾値
-    nb = B + Xb[i]  # "b" が B 個になる最初の位置の閾値
-    print("na:", na, "nb:", nb)
-
+ans = []
+for i in range(N):  # 最初の自力解答のrange(N - A)を修正しただけでAC!!
+    na = A + Xa[i]
+    nb = B + Xb[i]
+    # print("na:", na, "nb:", nb)
     Ra = bisect_left(Xa, na)
     Rb = bisect_left(Xb, nb)
     # print("Ra:", Ra, "Rb:", Rb)
-
-    Ra = max(Ra, i + 1)  # 空区間(j=i)は禁止 ### これがないとWA ###
-
-    if Ra <= Rb - 1:  # Raのほうが、Rb-1よりも小さい時（チャッピー解説を参照）
-        ans += (Rb - Ra)  # Rb - 1 - (Ra - 1) がiの時のA,Bを満たす組の個数
-
-print(ans)
-
+    if Ra <= Rb - 1:
+        ans.append(Rb - Ra)
+# print(ans)
+print(sum(ans))
 
 """
 累積和 + 二分探索
