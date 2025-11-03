@@ -1,37 +1,28 @@
 N = int(input())
 A = list(map(int, input().split()))
 
-A.sort(reverse=True)
-# print(A)
+# 配列を偶数,奇数を分けて作成
+evens = [x for x in A if x % 2 == 0]
+odds = [x for x in A if x % 2 == 1]
 
-even = []
-for i in range(N):
-    if A[i] % 2 == 0:
-        even.append(A[i])
-        if len(even) == 2:
-            break
-odd = []
-for i in range(N):
-    if A[i] % 2 == 1:
-        odd.append(A[i])
-        if len(odd) == 2:
-            break
+ans = -1
+# 偶数 + 偶数の場合
+if len(evens) >= 2:
+    evens.sort(reverse=True)
+    ans = max(ans, evens[0] + evens[1])
 
+# 奇数 + 奇数の場合
+if len(odds) >= 2:
+    odds.sort(reverse=True)
+    ans = max(ans, odds[0] + odds[1])
 
-if len(even) <= 1:
-    even = []
-
-if len(odd) <= 1:
-    odd = []
-
-# print(even)
-# print(odd)
-
-print(max(sum(even), sum(odd)))
+print(ans)
 
 """
-数学的な気づき系 WA
+数学的な気づき系
+チャッピー
 偶奇を考える
+和が偶数になる時は偶数 + 偶数、もしくは、奇数 + 奇数であることを見抜く。
 
 偶数の和は：
 偶数 + 偶数
