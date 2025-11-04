@@ -19,9 +19,9 @@ for a in A:
     だから if j < M: で「まだ B[j] が存在するなら見る」としています。
     """
     if j < M:  # aより大きい最小の要素
-        ans = min(ans, abs(a - B[j]))
+        ans = min(ans, B[j] - a)
     if j > 0:  # aより小さい最大の要素
-        ans = min(ans, abs(a - B[j - 1]))
+        ans = min(ans, a - B[j - 1])
 
 print(ans)
 
