@@ -1,25 +1,14 @@
 N = int(input())
-S = set(input() for _ in range(N))
-# print(S)
 
-pool = set()  # 削除候補
-for s in S:
-    if s == s[::-1]:  # 回文はパスする
-        continue
-
-    rs = ''.join(s[::-1])  # 文字列を逆順にする
-    if rs in S and s not in pool:  # 逆順がSにあったら削除候補にする
-        pool.add(rs)
-
-# print(pool)
-# print(S)
-
-print(len(S) - len(pool))
+seen = set()
+for _ in range(N):
+    s = input().strip()
+    seen.add(min(s, s[::-1]))  # 文字列の向きを正規化！！
+print(len(seen))
 
 """
 文字列操作
-反転して同じ文字列なら同じと判断する。
-回文を除外するのを忘れないこと。
+各文字列をmin(s, s[::-1]) に正規化して集合に入れるのが一番シンプルで安全です。
 
 けんちょん
 https://drken1215.hatenablog.com/entry/2025/02/09/023754
