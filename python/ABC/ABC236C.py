@@ -1,10 +1,11 @@
-import sys
 from bisect import bisect_left
-input = sys.stdin.readline
 
 N, M = map(int, input().split())
-S = [input().strip() for _ in range(N)]
-T = sorted(input().strip() for _ in range(M))
+S = input().split()
+T = input().split()
+T.sort()
+# print(S)
+# print(T)
 
 for s in S:
     i = bisect_left(T, s)
