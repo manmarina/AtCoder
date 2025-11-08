@@ -2,20 +2,23 @@ MOD = 10**9 + 7
 N = int(input())
 A = list(map(int, input().split()))
 
-# 右側の合計を最初に作る
-right_sum = sum(A) % MOD
-ans = 0
+s1 = 0
+s2 = 0
+for x in A:
+    x %= MOD
+    s1 = (s1 + x) % MOD         # sum A_i
+    s2 = (s2 + x * x) % MOD     # sum A_i^2 (mod)
 
-for i in range(N - 1):
-    right_sum = (right_sum - A[i]) % MOD   # A[i] より右側の合計に更新
-    ans = (ans + A[i] * right_sum) % MOD   # A[i] * (右側の和) を加算
-
+ans = (s1 * s1 - s2) % MOD
+inv2 = pow(2, MOD - 2, MOD)     # 2 の逆元
+ans = ans * inv2 % MOD
 print(ans)
 
 """
 計算量を削減したシミュレーション + 数学的な気づき系
+別解
 数列の式を変形して、計算を高速化する。
-変形した式は、チャッピーの解法1の解説を参照して下さい。
+変形した式は、チャッピーの解法2の解説を参照して下さい。
 
 けんちょん
 https://drken1215.hatenablog.com/entry/2020/10/09/172500
