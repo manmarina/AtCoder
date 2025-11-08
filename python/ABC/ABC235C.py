@@ -1,29 +1,25 @@
-import sys
 from collections import defaultdict
 
-input = sys.stdin.readline
 
 N, Q = map(int, input().split())
 A = list(map(int, input().split()))
+Query = [list(map(int, input().split())) for _ in range(Q)]
+# print(Query)
 
-pos = defaultdict(list)
-for i, a in enumerate(A, start=1):  # 1-indexed
-    pos[a].append(i)
+dd = defaultdict(list)  # ai -> [出現位置のリスト]
+for i in range(N):
+    dd[A[i]].append(i + 1)  # 1-indexed
+# print(dd)
 
-out_lines = []
-for _ in range(Q):
-    x, k = map(int, input().split())
-    L = pos.get(x, [])
-    if k <= len(L):
-        out_lines.append(str(L[k - 1]))
+for x, k in Query:
+    if len(dd[x]) < k:  # [出現位置のリスト]がkより短い時
+        print(-1)
     else:
-        out_lines.append("-1")
-
-print("\n".join(out_lines))
+        print(dd[x][k - 1])  # [出現位置のリスト]のk番目を出力する
 
 """
-基本実装問題
-チャッピー
+計算量を削減したクエリ処理 + 連想配列
+リトライ
 「データ構造系（連想配列での出現位置管理）」問題
 
 https://atcoder.jp/contests/abc235/tasks/abc235_c
