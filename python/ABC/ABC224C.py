@@ -1,26 +1,24 @@
-import sys
+from itertools import combinations
 
-N = int(sys.stdin.readline())
-P = [tuple(map(int, sys.stdin.readline().split())) for _ in range(N)]
+
+N = int(input())
+XY = [tuple(map(int, input().split())) for _ in range(N)]
 
 ans = 0
-for i in range(N):
-    x1, y1 = P[i]
-    for j in range(i + 1, N):
-        x2, y2 = P[j]
-        dx1, dy1 = x2 - x1, y2 - y1
-        for k in range(j + 1, N):
-            x3, y3 = P[k]
-            dx2, dy2 = x3 - x1, y3 - y1
-            # 外積（面積の2倍）
-            if dx1 * dy2 - dx2 * dy1 != 0:
-                ans += 1
+for t1, t2, t3 in combinations(XY, 3):
+    x1, y1 = t1
+    x2, y2 = t2
+    x3, y3 = t3
+    # print(t1, t2, t3)
+    gaiseki = (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)
+    if gaiseki != 0:
+        ans += 1
 
 print(ans)
 
 """
-幾何 全探索（3重ループ） 数え上げ問題（組合せ探索）
-チャッピー
+数学的な気づき系
+外積を利用して3点が三角形をなすか判定する。
 
-キーアイデア：3点が一直線上かどうか = 外積（面積）が0かどうかで判定（実数の傾きは使わない）
+https://atcoder.jp/contests/abc224/tasks/abc224_c
 """
