@@ -1,17 +1,19 @@
-import sys
 from itertools import combinations
 
-input = sys.stdin.readline
+
 N, M = map(int, input().split())
 
-for comb in combinations(range(1, M + 1), N):
-    print(*comb)
+A = [i for i in range(1, M + 1)]
+# print(A)
+
+for c in combinations(A, N):
+    print(*c)
 
 """
-全探索（列挙）/ 組合せ生成
-チャッピー
-combinationsを使用。デフォルトで辞書順出力される。
+組合せ全探索(combinations)
+リトライ
 
+combinationsを使用。デフォルトで辞書順出力される。
 実質 C(M, N) 通りを辞書順で出力する問題です。
 
 https://atcoder.jp/contests/abc263/tasks/abc263_c
