@@ -1,18 +1,15 @@
 X, Y = map(int, input().split())
 
-res = 0
-num = X
-
-# 値が Y を超えるまで 2 倍し続ける
-while num <= Y:
-    res += 1  # カウントする
-    num *= 2
-
-print(res)
+cnt = 0
+while X <= Y:
+    X *= 2
+    cnt += 1
+print(cnt)
 
 """
 問題文の理解が難解系
-一般に、Aiが決まっているとき、Ai+1=2Aiとすればよい。
+リトライ
+一般に、A[i]が決まっているとき、A[i+1]=2A[i]とすればよい。
 こうして、Yを超えるまで続けていけばよい。
 
 けんちょん
