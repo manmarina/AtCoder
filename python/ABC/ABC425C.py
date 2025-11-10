@@ -1,37 +1,27 @@
-import sys
-
-input = sys.stdin.readline
 N, Q = map(int, input().split())
 A = list(map(int, input().split()))
+Query = [list(map(int, input().split())) for _ in range(Q)]
 
-# 二重配列と累積和
-# 区間の長さは 最大でも N（配列の全体）です。
-# 配列を 2 回並べておけば、必ず 1 本の連続区間として取れる。
-B = A + A
-pref = [0] * (2 * N + 1)
-for i, x in enumerate(B, 1):
-    pref[i] = pref[i - 1] + x
-# print(pref)
+A2 = A + A  # Aを2回繰り返した配列を作成
+# print(A2)
 
-off = 0  # 先頭（0-index）が元配列のどこか
-out = []
-for _ in range(Q):
-    t, *rest = map(int, input().split())
-    if t == 1:
-        c = rest[0]
-        off = (off + c) % N  # Nで回転
-    else:
-        l, r = rest
-        length = r - l + 1
-        start = (off + (l - 1)) % N  # Nで回転
-        s = pref[start + length] - pref[start]
-        out.append(str(s))
-print("\n".join(out))
+cs = [0]  # A2の累積和
+for i in range(len(A2)):
+    cs.append(cs[i] + A2[i])
+# print(cs)
+
+shift = 0  # インデックスをシフトする変数
+for q in Query:
+    if q[0] == 1:
+        _, c = q
+        shift = (shift + c) % N  # 回転を考慮してシフト値を変更する
+    else:  # q[0] == 2:
+        _, l, r = q
+        print(cs[r + shift] - cs[l - 1 + shift])  # シフト値を加味して区間和を求める
 
 """
-二重配列の累積和
-チャッピー
-
+計算量を削減したシミュレーション + 二重配列の累積和
+リトライ
 回転は“配列を動かさずに”先頭位置のオフセットだけ持つ
 累積和は “二重配列” に乗せる
 
