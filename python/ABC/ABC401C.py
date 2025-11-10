@@ -1,20 +1,20 @@
-n, k = map(int, input().split())
-s = k  # k個の和（初期値は1*k）
-a = [1 for i in range(n + 1)]  # すべて1で初期化（i=Kまですべて1という初期条件）
-# print(a)
+N, K = map(int, input().split())
 
-for i in range(k, n + 1):  # kからスタート
-    a[i] = s  # i=k以降のAiは、以前のk個の和
+sum_ = K
+A = [1] * K
+# print(A)
 
-    # Sを更新
-    s -= a[i - k]  # 一番古い値を引く
-    s += a[i]  # 一番あたらしい値を足す
-    s %= 1000000000  # 余りを取る
-print(a[n])
-# print(a)
+for i in range(K, N + 1):
+    A.append(sum_)
+    # sum_を更新する(今回分を足す & K個前を引く)
+    sum_ = (sum_ + A[i] - A[i - K]) % 10**9
+
+print(A[-1])  # 最後の要素が答え
 
 """
 計算量を削減したシミュレーション
+リトライ
+
 解説
 https://atcoder.jp/contests/abc401/editorial/12689
 愚直に毎回 Aiを求めると O(NK) かかってしまい実行時間制限に間に合いません。
