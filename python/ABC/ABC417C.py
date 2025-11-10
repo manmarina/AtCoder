@@ -1,34 +1,37 @@
+from collections import defaultdict
+
+
 N = int(input())
 A = list(map(int, input().split()))
+# print(A)
 
-counter = {}
 ans = 0
-
+dd = defaultdict(int)  # A[i] + i -> A[i] + iの数
 for i in range(N):
-    a = A[i]
-    # j - A[j] = i + A[i] を満たす個数を加算
-    ans += counter.get(i - a, 0)  # 一つのj - A[j]が複数のi + A[i]とペア成立
-    # i + A[i] のカウンタを進める
-    counter[i + a] = counter.get(i + a, 0) + 1
+    dd[A[i] + i] += 1
 
-# print(counter)
-# print(ans)
+for j in range(N):
+    ans += dd[j - A[j]]  # A[i] + i と j - A[j] が一致した数を加算
+
+print(ans)
 
 """
 計算量を削減したシミュレーション
-yuulis
-https://yuulis.hatenablog.com/entry/ABC-417-C
-難しい。。
+リトライ
 
-どう数えるのか（考え方）
-左側（過去の i）について、
-各 i の値 A[i] + i を辞書 counter に記録しておく。
-→ 「この値を持つ i が何個あるか」を保存。
+公式+チャッピーの解説がわかりやすい。
+「公式の解説です。 灰コーダーの私にもわかりやすくこの内容を教えて下さい。」以下を参照して下さい。
 
-現在の j に対して、
-j - A[j] を計算し、それと同じ値の A[i] + i が過去にあればペア成立。
+A[i] + A[j] = j - i を変形して、
+A[i] + i = j - A[j] を得る。
+つまり、A[i] + i と j - A[j] が一致していれば、その数の累計が答え。
 
-チャッピーの「例で確認」をみるとなんとか理解できる。
+まず、defaultdictを作成して、
+A[i] + i の数をカウントする。
+その後、defaultdictからj - A[j]の数を取り出してansに加算する。
+ansが A[i] + i = j - A[j] を満たすものの数となる。
+
+0-indexedでも、1-indexedでも答えは一致するので、0-indexedで作成しています。
 
 https://atcoder.jp/contests/abc417/tasks/abc417_c
 https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/69008615-d0bc-8323-bcdf-e5cba57c16ad
