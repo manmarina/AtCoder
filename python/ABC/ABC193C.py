@@ -1,20 +1,21 @@
 N = int(input())
 
-ab = set()  # N以下のべき乗数を格納するset
-a = 2
-while a * a <= N:  # 2から√Nまで（√Nの二乗はNを超えてしまうので）
-    val = a * a  # aの二乗からスタート
-    while val <= N:  # N以下の間
-        ab.add(val)
-        val *= a  # 指数を1増やす（^2 -> ^3 -> ^4...）
-    a += 1  # aを1増やす
+ok = set()
+for i in range(2, int(N**0.5) + 1):
+    n = i * i
+    while n <= N:
+        ok.add(n)
+        n *= i
 
-print(N - len(ab))  # NからN以下のべき乗数の数を引いたものが答え
+# print(ok)
+print(N - len(ok))
 
 """
 数学的な気づき系
+リトライ
 √Nまで探索すれば良いことを見抜く。
 なぜなら√Nより大きい整数は二乗するとNより大きくなるからだ。
+けんちょんとほぼ同じ実装ができた！
 
 チャッピーの
 例：N=100 の場合
