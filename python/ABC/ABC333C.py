@@ -1,22 +1,34 @@
-base = [1]
-for _ in range(15):  # 12桁で良いが、安全のため15桁
-    base.append(base[-1] * 10 + 1)  # 最後の要素を10倍して1を足す
-# print("base:", base)
+from itertools import product
 
-all_nums = []
-for x in base:
-    for y in base:
-        for z in base:
-            all_nums.append(x + y + z)  # すべての組み合わせの和を格納
-# print("all_nums", all_nums)
-
-all_nums = sorted(set(all_nums))  # 重複を排除してソート
 
 N = int(input())
-print(all_nums[N - 1])  # 0-indexed
+
+repunit = [
+    1,
+    11,
+    111,
+    1_111,
+    11_111,
+    111_111,
+    1_111_111,
+    11_111_111,
+    111_111_111,
+    1_111_111_111,
+    11_111_111_111,
+    111_111_111_111  # 入力例3において、上限のN=333が12桁だったので
+]
+
+trio = set()
+for r in product(repunit, repeat=3):
+    trio.add(sum(r))
+trio = sorted(trio)
+
+# print(trio)
+print(trio[N - 1])
 
 """
 全探索
+リトライ
 12 桁以下のトリレプユニット数を列挙する
 それらの 3 つの和で表される数を重複なしで列挙する
 そのうちの N番目の数を求める
