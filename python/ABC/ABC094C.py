@@ -1,35 +1,26 @@
-from collections import defaultdict
+from bisect import bisect_left
 
 
 N = int(input())
-X = list(map(int, input().split()))  # インデックス ->　値
+X = list(map(int, input().split()))
 
-Xs = sorted(X)  # Xをソート
-# print("Xs:", Xs)
+S = sorted(X)
+L = S[N // 2 - 1]
+R = S[N // 2]
 
-# Xiの制約が10**9と大きくリストを作成できない
-# Xsの逆順列
-Xsr = defaultdict(int)  # 値 ->　インデックス
-for i in range(N):
-    Xsr[Xs[i]] = i
-# print("Xsr:", Xsr)
-
-r = Xs[N // 2]  # 中央値の候補 右側
-l = Xs[N // 2 - 1]  # 中央値の候補 左側
-for i in range(N):
-    if Xsr[X[i]] < N // 2:  # 削除する値が左寄りなら、
-        print(r)  # 右側が中央値
-    else:  # 削除する値が右寄りなら、
-        print(l)  # 左側が中央値
+for x in X:
+    j = bisect_left(S, x)  # x の最初の出現位置
+    if j < N // 2:
+        print(R)  # 左半分から抜ける → 右に寄る
+    else:
+        print(L)  # 右半分から抜ける → 左に寄る
 
 """
-計算量を削減したシミュレーション + 逆順列
-毎回リストからXiを削除して中央値を求めるとTLE。
-削除する値が、ソート後にどこに位置しているかを知るために逆順列を使う。
-解となる中央値は2通りしかない。これを左側、右側とする。
-削除する値が左寄りなら右側、右寄りなら左側が中央値となる。
+計算量を削減したシミュレーション + 二分探索
+逆順列を使わずに、二分探索で直接削除する値のインデックスを探す。
+インデックスを見つけた後の処理は全く逆順列版と同じ。
 
-hamayanhamayanの解説
+hamayanhamayanの
 https://blog.hamayanhamayan.com/entry/2018/04/15/163238
 
 https://atcoder.jp/contests/abc094/tasks/arc095_a
