@@ -1,41 +1,29 @@
 N, K = map(int, input().split())
 A = list(map(int, input().split()))
 
-one = A.index(1)  # 1の位置を探す
-# print(one)
+res = 0
+right = 0
 
-ans = 10**6
-for i in range(K):  # 1を含むK通りの範囲を探索
-    right = one + i  # 選択した範囲の右端のインデックス
-    rt = 0
-    if right < N - 1:  # 右端に隙間がある時
-        rt = -(-(N - 1 - right) // (K - 1))  # 右側を選択する回数　切り上げ除算
+while True:
+    if res == 0:
+        right += K
+    else:
+        right += (K - 1)
 
-    left = one + i - K + 1  # 選択肢した範囲の左端のインデックス
-    lt = 0
-    if left > 0:  # 左端に隙間がある時
-        lt = -(-left // (K - 1))  # 左側を選択する回数　切り上げ除算
+    res += 1
 
-    # print("right:", right, "left:", left, "rt:", rt, "lt:", lt)
-    ans = min(ans, lt + rt + 1)  # 左右を選択した回数と、最初の選択1回を合計した数が最小なら更新
+    if right >= N:
+        break
 
-print(ans)
-
+print(res)
 
 """
 計算量を削減したシミュレーション
-要素は1を含むので、すべての要素を1にするのがゴール。
-ということは、最初に選択するのは1を含む範囲。
-この範囲の選択の仕方がK通りあるので、K通りを全探索する。
-選択した範囲の左右のエリアを選択する回数をO(1)で求める。
-
-WAのケース
-4 4
-1 2 3 4
-を修正してAC!
-
-けんちょんの解説
+けんちょん
 https://drken1215.hatenablog.com/entry/2018/06/24/003500
+最初の選択をK通り探索しなくても、片側に寄せて考えると最短の解が得られるというけんちょんのスマートすぎる解!!
+もはや配列Aに触れてすらいない。。。
 
 https://atcoder.jp/contests/abc101/tasks/arc099_a
+https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/69158816-b990-8321-b1fc-f05db9ea5cb6
 """
