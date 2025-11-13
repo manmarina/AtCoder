@@ -1,24 +1,19 @@
-from math import lcm
-
-
 N = int(input())
 A = list(map(int, input().split()))
 
-hoge = 0
-fuga = lcm(*A) - 1  # 最小公倍数-1
+ans = 0
 for a in A:
-    hoge += fuga % a
+    ans += a - 1
 
-print(hoge)
-
+print(ans)
 
 """
 法則を見つける系
-答えは最小公倍数-1であることに気づく。
-実際に適当な数までシミュレーションすると法則が見えてきた。
-
-けんちょんの解説
+けんちょん
 https://drken1215.hatenablog.com/entry/2018/07/21/224100
+各項がai - 1の時がfの最大値であり、そのような解があることに気づく。
+その時のmは最小公倍数-1であることに気づく。
 
 https://atcoder.jp/contests/abc103/tasks/abc103_c
+https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/69159c01-62d8-8323-963e-d5cb6afa30d2
 """
