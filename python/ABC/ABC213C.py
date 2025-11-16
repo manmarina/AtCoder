@@ -1,52 +1,29 @@
-import sys
-
-input = sys.stdin.readline
 H, W, N = map(int, input().split())
-P = [tuple(map(int, input().split())) for _ in range(N)]
+AB = [list(map(int, input().split())) for _ in range(N)]
+# print(AB)
 
 # 座標圧縮
-# 逆変換（インデックス → 元の値）に使用
-A = [a for a, _ in P]
-B = [b for _, b in P]
+# 逆変換（圧縮後の値 → 圧縮前の値）
+A = [a for a, _ in AB]
+B = [b for _, b in AB]
 rows = sorted(set(A))
 cols = sorted(set(B))
 
-# 順変換（元の値 → 連番インデックス)に使用
+# 順変換（圧縮前の値 → 圧縮後の値)
 row_id = {v: i + 1 for i, v in enumerate(rows)}  # 1-indexed
 col_id = {v: i + 1 for i, v in enumerate(cols)}  # 1-indexed
 
-for a, b in P:
+# 出力
+for a, b in AB:
     print(row_id[a], col_id[b])
 
 """
 座標圧縮
-チャッピー
+座標圧縮の教育的な問題。
+座標圧縮テンプレートを使用。
 
-座標圧縮とは数列 A0,A1,…,AN-1が与えられたときに、
-それぞれの要素が「全体の中で何番目に小さいか」を求めていく作業を、
-競プロ界では座標圧縮 (座圧) とよびます。
+けんちょんの解説
+https://drken1215.hatenablog.com/entry/2021/08/11/023013
 
-座標圧縮は 「大きい・疎な数値を、小さい連続番号に変換する」テクニック です。
-この問題では「数直線上の整数」を「グラフの頂点番号」に変換するために必須の処理になっています。
-
-座標圧縮の実装では vals（リスト）と idx（辞書）の2つをセットで用意する のがとても一般的です。
-役割の違い
-vals（リスト）
-    圧縮後の番号から「元の値」に戻すために使います。
-    例：vals[2] = 500000000 のように「逆変換」できる。
-    BFS/DFSで探索したあと「最大値は？」と答える時に必要。
-idx（辞書）
-    元の値から「圧縮後の番号」に変換するために使います。
-    例：idx[500000000] = 2 のように「順変換」できる。
-
-グラフの辺を作る時や配列アクセスに必要。
-
-まとめると
-
-順変換（元の値 → 連番インデックス） → idx
-逆変換（インデックス → 元の値） → vals
-
-両方を用意しておけば、
-「探索はインデックスで効率的に」「答え出力は元の値で」
-という処理がスムーズにできます。
+https://atcoder.jp/contests/abc213/tasks/abc213_c
 """
