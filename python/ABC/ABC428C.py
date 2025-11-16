@@ -39,7 +39,10 @@ for _ in range(Q):
     # print(stack, score, out)
 
 """
-自力解
+場合分け系
+不正な')'が出現したら位置をoutに格納。
+outが空にならない限り、'('と')'のk図が一致してもYesにならない。
+
 コンテスト中は惜しくもWAだったが、
 チャッピーにWAの原因を確認して調整したコードでAC
 https://atcoder.jp/contests/abc428/tasks/abc428_c
