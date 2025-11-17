@@ -1,13 +1,13 @@
 X, A, D, N = map(int, input().split())
 
+# dを正規化
+if D < 0:
+    A = A + D * (N - 1)  # Aを数列の最小値にする
+    D = -D
+
 # 数列の最大値、最小値を設定
-if D > 0:  # Dが正の時
-    mx = A + D * (N - 1)
-    mn = A
-else:  # Dが負の時
-    mx = A
-    mn = A + D * (N - 1)
-# print(mx)
+mx = A + D * (N - 1)
+mn = A
 
 # 早期終了条件 Xが数列の範囲外の時
 if X >= mx:
@@ -18,23 +18,16 @@ elif X <= mn:
     exit()
 
 # Xが数列の範囲内の時
-if D > 0:  # Dが正のとき
-    t = (X - A) // D
-    L = A + D * t
-    R = A + D * (t + 1)
-    # print("L:", L, "R:", R)
-    print(min(X - L, R - X))
-else:  # Dが負のとき
-    t = -(A - X) // D
-    L = A + D * (t + 1)
-    R = A + D * t
-    print(min(X - L, R - X))
+t = X - mn
+r = t % D
+print(min(r, D - r))
 
 """
 数学的な気づき系
 リトライ
 ざっくり言うと「数直線上の等差数列のうち、x に一番近い項との差の最小値」を O(1) で求める問題です。
 チャッピーの解のほうが正規化しているのでわかりやすくてスマート。
+正規化したバージョンも書いておく。
 
 https://atcoder.jp/contests/abc255/tasks/abc255_c
 """
