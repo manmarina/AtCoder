@@ -1,33 +1,43 @@
-H1, H2, H3, W1, W2, W3 = map(int, input().split())
+h1, h2, h3, w1, w2, w3 = map(int, input().split())
 
 ans = 0
-for a11 in range(1, H1 - 1):  # 1行1列
-    for a12 in range(1, H1 - a11):  # 1行2列
-        a13 = H1 - a11 - a12  # 1行3列
+# 1行目
+for a11 in range(1, h1 - 1):
+    for a12 in range(1, h1 - a11):
+        a13 = h1 - a11 - a12  # 1行3列目
         if a13 <= 0:
             continue
 
-        for a21 in range(1, H2 - 1):  # 2行1列
-            for a22 in range(1, H2 - a21):  # 2行2列
-                a23 = H2 - a21 - a22  # 2行3列
+        # 2行目
+        for a21 in range(1, h2 - 1):
+            for a22 in range(1, h2 - a21):
+                a23 = h2 - a21 - a22  # 2行3列目
                 if a23 <= 0:
                     continue
 
-                a31 = W1 - a11 - a21  # 3行1列
-                a32 = W2 - a12 - a22  # 3行2列
+                # 3行目
+                a31 = w1 - a11 - a21
+                a32 = w2 - a12 - a22
                 if a31 <= 0 or a32 <= 0:
                     continue
 
-                left = H3 - a31 - a32  # 3行3列 横方向から
-                right = W3 - a13 - a23  # 3行3列 縦方向から
-                if left == right and left > 0:
+                # 3行3列目
+                hol = h3 - a31 - a32
+                ver = w3 - a13 - a23
+                if hol == ver and hol > 0:
+                    a33 = hol
                     ans += 1
+
+                    # print("1:", a11, a12, a13)
+                    # print("2:", a21, a22, a23)
+                    # print("3:", a31, a32, a33)
+                    # print()
 
 print(ans)
 
 """
-全探索
-チャッピー
+工夫して探索の通り数を減らす全探索
+写経
 
 数独・ナンプレ風問題
 3x3 の正の整数マスに行和 H1,H2,H3 と列和 W1,W2,W3 を合わせる「個数を数える」課題です。
