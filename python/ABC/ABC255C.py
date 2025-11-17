@@ -1,36 +1,40 @@
-import sys
+X, A, D, N = map(int, input().split())
 
-x, a, d, n = map(int, sys.stdin.readline().split())
+# 数列の最大値、最小値を設定
+if D > 0:  # Dが正の時
+    mx = A + D * (N - 1)
+    mn = A
+else:  # Dが負の時
+    mx = A
+    mn = A + D * (N - 1)
+# print(mx)
 
-if d == 0:
-    print(abs(x - a))
+# 早期終了条件 Xが数列の範囲外の時
+if X >= mx:
+    print(X - mx)
+    exit()
+elif X <= mn:
+    print(mn - X)
     exit()
 
-# d を正に正規化
-if d < 0:
-    a = a + d * (n - 1)
-    d = -d
-
-L = a  # 数列の最小値
-R = a + d * (n - 1)  # 数列の最大値
-
-if x <= L:  # 数列の最小値よりxが小さいとき
-    print(L - x)
-elif x >= R:  # 数列の最大値よりxが大きいとき
-    print(x - R)
-else:
-    t = x - L          # 0 <= t < d*(n-1)
-    r = t % d          # 最近格子までのずれ
-    print(min(r, d - r))
+# Xが数列の範囲内の時
+if D > 0:  # Dが正のとき
+    t = (X - A) // D
+    L = A + D * t
+    R = A + D * (t + 1)
+    # print("L:", L, "R:", R)
+    print(min(X - L, R - X))
+else:  # Dが負のとき
+    t = -(A - X) // D
+    L = A + D * (t + 1)
+    R = A + D * t
+    print(min(X - L, R - X))
 
 """
-数学的気付き 等差数列・剰余／数直線上の距離計算
-チャッピー
+数学的な気づき系
+リトライ
 ざっくり言うと「数直線上の等差数列のうち、x に一番近い項との差の最小値」を O(1) で求める問題です。
-分類：数学（等差数列・剰余）／数直線上の距離計算（二分探索でも解けるが不要）
-
-d を正に正規化しておく(d<0 なら a を a+(N-1)d に置き換え、d=-d にする）。
+チャッピーの解のほうが正規化しているのでわかりやすくてスマート。
 
 https://atcoder.jp/contests/abc255/tasks/abc255_c
-https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/68de0fea-ee14-8326-b456-59c906b1882f
 """
