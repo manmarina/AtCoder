@@ -7,11 +7,19 @@ def is_convex(A, B, C, D):
     def vec(P, Q):  # P->Q
         return (Q[0] - P[0], Q[1] - P[1])
 
+    # ベクトルを作成
     AB = vec(A, B)
     BC = vec(B, C)
     CD = vec(C, D)
     DA = vec(D, A)
 
+    # 外積を計算
+    """
+    外積とは曲がる方向を数値化したもの
+    > 0	左に曲がる（反時計回り）
+    < 0	右に曲がる（時計回り）
+    = 0	まっすぐ（180° ⇒ 四角形にならない）
+    """
     z1 = cross(AB[0], AB[1], BC[0], BC[1])  # ∠ABC
     z2 = cross(BC[0], BC[1], CD[0], CD[1])  # ∠BCD
     z3 = cross(CD[0], CD[1], DA[0], DA[1])  # ∠CDA
@@ -27,8 +35,10 @@ def is_convex(A, B, C, D):
     return pos == 4 or neg == 4
 
 
+# 入力
 pts = [tuple(map(int, input().split())) for _ in range(4)]
 
+# 出力
 A, B, C, D = pts
 print("Yes" if is_convex(A, B, C, D) else "No")
 
