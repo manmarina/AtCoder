@@ -3,10 +3,12 @@ import sys
 input = sys.stdin.readline
 N, M = map(int, input().split())
 A = list(map(int, input().split()))
+print("A:", A)
 
 # 初期区間 [0..M-1]
-S = sum(A[:M])                          # 区間和
+S = sum(A[:M])  # 区間和
 T = sum((i + 1) * A[i] for i in range(M))  # 重み付き和（1..M）
+# print("S:", S, "T:", T)
 
 ans = T
 for l in range(1, N - M + 1):
@@ -14,12 +16,15 @@ for l in range(1, N - M + 1):
     out = A[l - 1]  # 左端から出る要素
     inn = A[l + M - 1]  # 右端に入る要素
 
-    # S を更新
-    S_prev = S
+    # T を更新
+    T = T - S + M * inn
+
+    # S を更新ment
     S = S - out + inn
 
-    # T を更新
-    T = T - S_prev + M * inn
+    # print("----------")
+    # print("out:", out, "inn:", inn)
+    # print("S:", S, "T:", T)
 
     if T > ans:
         ans = T
