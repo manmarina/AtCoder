@@ -4,28 +4,28 @@ H2, W2 = map(int, input().split())
 B = [list(map(int, input().split())) for _ in range(H2)]
 
 
-def pick_indices(mask, n):              # mask で立っているビットの添字を昇順で返す
+def pick_indices(mask, n):  # mask で立っているビットの添字を昇順で返す
     return [i for i in range(n) if (mask >> i) & 1]
 
 
 for rmask in range(1 << H1):
-    if rmask.bit_count() != H2:         # ちょうど H2 行だけ残す
+    if rmask.bit_count() != H2:  # rmaskのビットの本数がH2本でないときはパス
         continue
-    rows = pick_indices(rmask, H1)
+    rows = pick_indices(rmask, H1)  # 残す行番号のリスト
 
     for cmask in range(1 << W1):
-        if cmask.bit_count() != W2:     # ちょうど W2 列だけ残す
+        if cmask.bit_count() != W2:  # cmaskのビットの本数がW2本でないときはパス
             continue
-        cols = pick_indices(cmask, W1)
+        cols = pick_indices(cmask, W1)  # 残す列番号のリスト
 
         ok = True
         for i in range(H2):
             for j in range(W2):
-                if A[rows[i]][cols[j]] != B[i][j]:
+                if A[rows[i]][cols[j]] != B[i][j]:  # 一致しないときは
                     ok = False
                     break
             if not ok:
-                break
+                break  # 次のcmaskへ
         if ok:
             print("Yes")
             exit()
