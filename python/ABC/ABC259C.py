@@ -1,47 +1,42 @@
-def rle(s):
-    # （文字,文字数)を格納するリストを作成
-    res = []
-    i, n = 0, len(s)
-    while i < n:
+S = input()
+T = input()
+
+
+def RLE(S):  # ランレングス圧縮
+    N = len(S)
+    lens = []
+    i = 0
+    while i < N:
         j = i
-        while j < n and s[j] == s[i]:
+        while j < N and S[j] == S[i]:
             j += 1
-        res.append((s[i], j - i))
+        lens.append((S[i], j - i))  # (文字,文字長)を記録
         i = j
-    return res
+    return lens
 
 
-S = input().strip()
-T = input().strip()
+Sc = RLE(S)
+Tc = RLE(T)
+# print(Sc)
+# print(Tc)
 
-RS = rle(S)  # Sの（文字,文字数)を格納するリスト
-RT = rle(T)  # Tの（文字,文字数)を格納するリスト
-print("RS =", RS)
-print("RT =", RT)
+if len(Sc) != len(Tc):  # 要素数が異なる時はアウト
+    print("No")
+    exit()
 
-ok = True
-if len(RS) != len(RT):  # セクション数が異なったらアウト
-    ok = False
-else:
-    for (cs, ls), (ct, lt) in zip(RS, RT):
-        if cs != ct:  # 文字が違ったらアウト
-            ok = False
-            break
-        if lt < ls:  # ltのほうが長かったらアウト
-            ok = False
-            break
-        if ls == lt:  # 同じ文字数なら次の判定へ
-            continue
-        # ここから ls < lt
-        if ls == 1:   # 長さ1の区間は伸ばせないのでアウト
-            ok = False
-            break
+for s, t in zip(Sc, Tc):
+    # 文字が違ったらアウト、tのほうが長かったらアウト、sが1のときにtが1でなければアウト
+    if s[0] != t[0] or s[1] > t[1] or (s[1] == 1 and t[1] != 1):
+        print("No")
+        exit()
 
-print("Yes" if ok else "No")
+print("Yes")
 
 """
-文字列処理 / ランレングス圧縮(RLE)
-チャッピー
+ランレングス圧縮(RLE)
+リトライ
+ランレングス圧縮テンプレートを使用。
+チャッピーと同じロジックで書けた。
 
 操作は「同じ文字が連続2個以上ある箇所だけを、さらに同じ文字で伸ばせる（増やせる）」というもの。
 → つまり 文字の並び順は変えられない、かつ 各連続区間（run）の長さは“そのまま”か“増加”しか起きない。ただし長さ1の区間は増やせない。

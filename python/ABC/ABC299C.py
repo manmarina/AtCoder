@@ -18,7 +18,7 @@ while i < N:
     dd[S[i]] = max(dd[S[i]], j - i)
     i = j
 
-# print(dd)
+print(dd)
 print(dd['o'] if dd['o'] != 0 else -1)  # 串だけのときは-1
 
 """
