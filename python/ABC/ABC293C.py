@@ -1,5 +1,3 @@
-from itertools import combinations
-
 H, W = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(H)]
 
@@ -7,9 +5,27 @@ steps = H + W - 2          # 手数
 downs = H - 1              # 下に行く回数
 
 ans = 0
+path = []
 
-for down_pos in combinations(range(steps), downs):
-    down_pos = set(down_pos)   # membership が速くなるように set に変換
+
+def dfs(start, depth):
+    global cnt
+
+    if depth == 0:  # 完成したら
+        # print(tuple(path))
+        path_chk(path)
+        return
+
+    for i in range(start, steps):  # 範囲を設定
+        path.append(i)
+        dfs(i + 1, depth - 1)  # 次の深さへ
+        path.pop()  # 戻す（バックトラッキング）
+
+
+def path_chk(path):
+    global ans
+    down_pos = set(path)
+
     i, j = 0, 0                # (0,0) スタート（0-index）
     used = {A[0][0]}           # 通った値の集合
 
@@ -29,10 +45,12 @@ for down_pos in combinations(range(steps), downs):
     if ok:
         ans += 1
 
+
+dfs(0, downs)
 print(ans)
 
 """
-組合せ全探索(combinations)
+組合せ全探索(combinations) + 再帰DFS
 公式解説
 組み合わせとしての最大の通り数 18C9（=48620通り）なので全探索可能。
 
