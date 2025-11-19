@@ -1,56 +1,40 @@
 H, W = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(H)]
 
-steps = H + W - 2          # 手数
-downs = H - 1              # 下に行く回数
-
 ans = 0
-path = []
+used = set()  # これまで通ったマスの値の集合
 
 
-def dfs(start, depth):
-    global cnt
+def dfs(i, j):
+    global ans
 
-    if depth == 0:  # 完成したら
-        # print(tuple(path))
-        path_chk(path)
+    # そのマスの値がすでに出ていたら、この経路はNG
+    if A[i][j] in used:
         return
 
-    for i in range(start, steps):  # 範囲を設定
-        path.append(i)
-        dfs(i + 1, depth - 1)  # 次の深さへ
-        path.pop()  # 戻す（バックトラッキング）
+    # このマスの値を使ったことにする
+    used.add(A[i][j])
 
-
-def path_chk(path):
-    global ans
-    down_pos = set(path)
-
-    i, j = 0, 0                # (0,0) スタート（0-index）
-    used = {A[0][0]}           # 通った値の集合
-
-    ok = True
-    for t in range(steps):
-        if t in down_pos:
-            i += 1   # 下へ
-        else:
-            j += 1   # 右へ
-
-        v = A[i][j]
-        if v in used:
-            ok = False
-            break
-        used.add(v)
-
-    if ok:
+    # ゴールに着いたら、条件を満たす経路 1 本発見
+    if i == H - 1 and j == W - 1:
         ans += 1
+    else:
+        # 下に行けるなら下へ
+        if i + 1 < H:
+            dfs(i + 1, j)
+        # 右に行けるなら右へ
+        if j + 1 < W:
+            dfs(i, j + 1)
+
+    # 帰りがけに元に戻す（バックトラック）
+    used.remove(A[i][j])
 
 
-dfs(0, downs)
+dfs(0, 0)
 print(ans)
 
 """
-組合せ全探索(combinations) + 再帰DFS
+再帰DFS
 公式解説
 組み合わせとしての最大の通り数 18C9（=48620通り）なので全探索可能。
 
