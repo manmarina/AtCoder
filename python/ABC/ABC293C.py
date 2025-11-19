@@ -1,42 +1,45 @@
 H, W = map(int, input().split())
 A = [list(map(int, input().split())) for _ in range(H)]
 
+steps = H + W - 2      # 動く総手数
+downs = H - 1          # 下に行く回数
+
 ans = 0
-used = set()  # これまで通ったマスの値の集合
 
+for mask in range(1 << steps):
+    # 1 の個数が down と違う mask はスキップ
+    if mask.bit_count() != downs:
+        continue
 
-def dfs(i, j):
-    global ans
+    i, j = 0, 0               # (0,0) からスタート（0-index）
+    used = {A[0][0]}          # 通った値の集合。最初にスタートを入れておく
+    ok = True
 
-    # そのマスの値がすでに出ていたら、この経路はNG
-    if A[i][j] in used:
-        return
+    for t in range(steps):
+        # t ビット目を見る
+        if (mask >> t) & 1:
+            # ビットが 1 → 下へ
+            i += 1
+        else:
+            # ビットが 0 → 右へ
+            j += 1
 
-    # このマスの値を使ったことにする
-    used.add(A[i][j])
+        v = A[i][j]
+        if v in used:
+            ok = False
+            break
+        used.add(v)
 
-    # ゴールに着いたら、条件を満たす経路 1 本発見
-    if i == H - 1 and j == W - 1:
+    if ok:
         ans += 1
-    else:
-        # 下に行けるなら下へ
-        if i + 1 < H:
-            dfs(i + 1, j)
-        # 右に行けるなら右へ
-        if j + 1 < W:
-            dfs(i, j + 1)
 
-    # 帰りがけに元に戻す（バックトラック）
-    used.remove(A[i][j])
-
-
-dfs(0, 0)
 print(ans)
 
 """
-再帰DFS
+ビット全探索（bit全探索）
 公式解説
 組み合わせとしての最大の通り数 18C9（=48620通り）なので全探索可能。
+組合せ全探索(combinations)版とほぼ同じコード。
 
 https://atcoder.jp/contests/abc293/tasks/abc293_c
 https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/691dbcf5-8c34-8331-86cb-e9ae44683ed5
