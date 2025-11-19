@@ -1,43 +1,59 @@
-from collections import deque
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [-1] * n  # 負なら根 & その絶対値がサイズ
+
+    def find(self, x):
+        if self.parent[x] < 0:
+            return x
+        self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def same(self, x, y):
+        return self.find(x) == self.find(y)
+
+    def union(self, x, y):
+        x = self.find(x)
+        y = self.find(y)
+        if x == y:
+            return False
+        if self.parent[x] > self.parent[y]:  # サイズが大きい方を根に
+            x, y = y, x
+        self.parent[x] += self.parent[y]
+        self.parent[y] = x
+        return True
+
 
 N, M = map(int, input().split())
-G = [[] for _ in range(N + 1)]
+uf = UnionFind(N + 1)
+ans = 0
 
 for _ in range(M):
     a, b = map(int, input().split())
-    G[a].append(b)
-    G[b].append(a)
+    if uf.same(a, b):
+        ans += 1  # これを追加すると閉路ができる → 削除すべき辺の数
+    else:
+        uf.union(a, b)
 
-visited = [False] * (N + 1)
-L = 0  # 閉路を作らないように残せる最大の辺の本数
+print(ans)
 
-for i in range(1, N + 1):  # スタート位置をすべて試す
-    if visited[i]:  # Trueならパスする
-        continue
+# print(uf.parent)
 
-    # i を始点に BFS
-    n = 1  # この連結成分に含まれる頂点数
-    dq = deque([i])
-    visited[i] = True
+# # ここから連結成分の情報を取り出す部分
+# L = []  # 各連結成分の頂点数を入れるリスト
+# for i in range(1, N + 1):
+#     if uf.parent[i] < 0:   # i が根なら、その成分の代表
+#         L.append(-uf.parent[i])
 
-    while dq:
-        v = dq.popleft()
-        for nv in G[v]:
-            if not visited[nv]:
-                visited[nv] = True
-                n += 1
-                dq.append(nv)
+# S = len(L)  # 連結成分の個数
 
-    L += n - 1  # この成分から残せる最大の辺を加算
-
-# 出力
-print(M - L)  # 削除すべき辺の本数
+# # 出力
+# print("S:", S)  # 連結成分の数
+# print("L:", L)  # 各連結成分の頂点数
 
 """
-BFS
-各連結成分の頂点数nをカウントする -> n-1が各連結成分の残せる最大の辺の数。
-L += n - 1で辺の数を累積する。
-削除すべき辺の本数は、MからLを引いたものとなる。
+Union-Find
+すでに連結している頂点同士をつなぐ辺の数を直接カウントする。
+DFS/BFSでも解ける。
 
 https://atcoder.jp/contests/abc288/tasks/abc288_c
 https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/691d549c-195c-8320-b9de-3759f27a4017
