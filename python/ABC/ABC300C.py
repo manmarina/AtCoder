@@ -49,8 +49,11 @@ print(*res)
 BFS
 けんちょんの実装
 グリッド上の「X字型（対角方向に伸びる十字）」の大きさを数える問題です。
+https://drken1215.hatenablog.com/entry/2023/05/03/131300
 
 #を見つけたらDFS。
 訪問管理はグリッドを.で塗りつぶして行う。
 ひとかたまりの#の数numが返ってくるので、num // 4 - 1をクロスのサイズとする。
+https://atcoder.jp/contests/abc300/tasks/abc300_c
+https://chatgpt.com/c/68ccbdc4-8038-8328-aee6-5f01881619dc
 """
