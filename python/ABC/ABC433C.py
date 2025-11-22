@@ -1,27 +1,26 @@
 S = input()
-nums = []
-for s in S:
-    nums.append(int(s))
-# print(nums)
+N = len(S)
+
+# ランレングス圧縮
+lens = []
+i = 0
+while i < N:
+    j = i
+    while j < N and S[j] == S[i]:
+        j += 1
+    lens.append((int(S[i]), j - i))  # (文字,文字長)を記録
+    i = j
+# print(lens)
 
 cnt = 0
-N = len(nums)
-for i in range(N - 1):
-    # print(i)
-    l = nums[i] + 1
-    r = nums[i + 1]
-    if l == r:
-        cnt += 1
-        j = 1
-
-        while (i - j >= 0 and
-               i + 1 + j <= N - 1 and
-               nums[i - j] + 1 == nums[i + 1 + j]):
-            cnt += 1
-            j += 1
-
+for i in range(len(lens) - 1):
+    if lens[i][0] + 1 == lens[i + 1][0]:
+        cnt += min(lens[i][1], lens[i + 1][1])
 print(cnt)
 
 """
-WA
+ランレングス圧縮
+テンプレートを活用。
+
+https://atcoder.jp/contests/abc433/tasks/abc433_c
 """
