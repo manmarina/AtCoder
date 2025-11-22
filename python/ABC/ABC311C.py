@@ -1,45 +1,33 @@
-import sys
-sys.setrecursionlimit(1 << 25)  # 再帰上限の設定を忘れない（わすれたらRE）
-
 N = int(input())
-A = list(map(int, input().split()))
+A = [0] + list(map(int, input().split()))  # 1-indexed
+print(A)
 
-G = [0]
-for i in range(N):
-    G.append(A[i])
-# print(G)
-
-
-def dfs(n):
-    if n in path_set:  # TLEを防ぐため判定はsetで
-        x = path.index(n)
-        path2 = path[x:]  # 閉路部分のみを切り抜く
-        print(len(path2))  # 閉路部分の長さを出力
-        print(*path2)  # 　閉路の頂点番号を出力
-        exit()
-    path.append(n)
-    path_set.add(n)
-
-    visited[G[n]] = True
-    dfs(G[n])
-    return
-
-
-# DFS
+# Step1: とにかく歩いてサイクル入口を探す
 visited = [False] * (N + 1)
+v = 1
+while not visited[v]:
+    visited[v] = True
+    v = A[v]
 
-for i in range(1, N + 1):
-    if visited[i]:  # 一度訪問した接続はパス
-        continue
-    path = []  # 経路を格納
-    path_set = set()  # TLEを防ぐためsetも用意する
-    visited[i] = True
-    dfs(i)
-# print(visited)
+start = v  # サイクル内のどこか
+
+# Step2: サイクルの長さを測る
+v = A[start]
+cycle = [start]
+while v != start:
+    cycle.append(v)
+    v = A[v]
+
+# Step3: 出力
+print(len(cycle))
+print(*cycle)
 
 """
-DFS
-サイクル検出の問題。
+DFS不使用
+functional graphのサイクル検出の問題。
+
+Functional グラフとは、
+各頂点 iに対して、その頂点を始点とする有向辺が 1 本だけ出ているような有向グラフです。
 
 けんちょんの解説
 https://drken1215.hatenablog.com/entry/2023/07/24/030543
