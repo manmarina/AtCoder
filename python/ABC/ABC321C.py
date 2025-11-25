@@ -1,21 +1,37 @@
+import sys
+sys.setrecursionlimit(10**7)
+
+
+def rec(val, vals):
+    # 現在の値を登録
+    vals.append(val)
+
+    # 末尾の桁
+    last = val % 10
+
+    # 末尾が 0 なら、それ以上小さい数字がない
+    if last == 0:
+        return
+
+    # 末尾より小さい数字をくっつけて再帰
+    for d in range(last):  # d = 0,1,2,...,last-1
+        rec(val * 10 + d, vals)
+
+
 K = int(input())
 
 vals = []
-for bit in range(1 << 10):  # 0～1023
-    val = 0
-    # 9,8,...,0 の順にチェック
-    for d in range(9, -1, -1):
-        if bit & (1 << d):
-            val = val * 10 + d
-    if val > 0:       # 0 は除外（空集合も {0} も 0 になる）
-        vals.append(val)
+
+# 1 桁の 1〜9 を根として DFS を開始
+for v in range(1, 10):
+    rec(v, vals)
 
 vals.sort()
-print(vals[K - 1])  # K番目を表示
+print(vals[K - 1])
 # print(vals)
 
 """
-ビット全探索
+再帰DFSによる全探索
 けんちょん
 https://drken1215.hatenablog.com/entry/2023/09/30/120900
 321-like Number は
