@@ -1,32 +1,30 @@
-from collections import defaultdict
-
+import sys
+input = sys.stdin.readline
 
 N = int(input())
-S = input()
+S = list(input().rstrip())
 Q = int(input())
-Query = []
+
+# アルファベットの変換テーブル（クエリ処理の結果、各文字が何に変化するのかを記録）
+convert = list(range(26))
+
 for _ in range(Q):
     c, d = input().split()
-    Query.append((c, d))
-# print(Query)
+    c = ord(c) - 97
+    d = ord(d) - 97
+    for i in range(26):  # 変換テーブルを走査
+        if convert[i] == c:  # cなら
+            convert[i] = d  # dに書き換える
 
-dd = defaultdict(list)
-for i in range(N):
-    dd[S[i]].append(i)
-# print(dd)
-
-for a, b in Query:
-    nums = dd[a]
-    dd[a] = []
-    dd[b].extend(nums)  # extendがO(b)なので低速
-# print(dd)
-
-T = [0] * N
-for k, v in dd.items():
-    for idx in v:
-        T[idx] = k
-print(*T, sep='')
+res = [chr(convert[ord(ch) - 97] + 97) for ch in S]  # 変換テーブルに従って変換
+print("".join(res))
 
 """
-TLE
+計算量を削減したクエリ処理
+けんちょん
+https://drken1215.hatenablog.com/entry/2024/11/23/115028
+文字列そのものをいじるんじゃなくて、アルファベット26文字に対する“変換表”を作成する。
+
+https://atcoder.jp/contests/abc342/tasks/abc342_c
+https://chatgpt.com/g/g-p-688d3155796881919ed997146b54eec1-atcoder/c/692e4ccd-42b8-8324-8783-c3f5635a42e5
 """
