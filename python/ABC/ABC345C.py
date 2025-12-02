@@ -1,26 +1,29 @@
-S = input().strip()
-N = len(S)
+from collections import Counter
 
-# 全ペア数 N*(N-1)/2
-res = N * (N - 1) // 2
+
+S = input()
 
 can_S = 0
-cnt = [0] * 26
+cnt = Counter(S)
+# print(cnt)
 
-# 文字数カウント
-for c in S:
-    cnt[ord(c) - ord('a')] += 1
 
-# 同じ文字同士のペアを引く & S自身になれるか判定
-for v in range(26):
-    if cnt[v] >= 2:
-        can_S = 1
-    res -= cnt[v] * (cnt[v] - 1) // 2
+def nC2(num):
+    return num * (num - 1) // 2
 
-print(res + can_S)
+
+ans = nC2(len(S))
+# print(ans)
+
+for v in cnt.values():
+    if v > 1:
+        can_S = 1  # 同じ文字が出現するときは、入れ替えても同じ並びになるという1パターンが存在する
+        ans -= nC2(v)
+print(ans + can_S)  # 同じ文字が出現するときは、1つ加算する
 
 """
 計算量を削減したシミュレーション
+修正
 けんちょん
 https://drken1215.hatenablog.com/entry/2024/09/04/015546
 操作によってできるものの個数を数え上げる系の問題の最も基本的な問題！
