@@ -1,17 +1,30 @@
 N = int(input())
-A = list(map(int, input().split()))
+A = [0] + list(map(int, input().split()))
 # print(A)
 
-i = 0
-while i < N:
+i = 1
+while i <= N:
     hoge = i + A[i] - 1
 
-    if hoge >= N - 1:
+    if hoge >= N:
         print(N)
         exit()
 
-    if A[hoge] == 1:
-        print(hoge + 1)
+    hoge = min(hoge, N)
+
+    max_ = i
+    for j in range(i, hoge + 1):
+        fuga = j + A[j] - 1
+        max_ = max(max_, fuga)
+
+    if max_ >= N:
+        print(N)
         exit()
 
-    i = hoge
+    if A[max_] == 1:
+        print(max_)
+        exit()
+
+    i = max_
+
+print(N)
