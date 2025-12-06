@@ -10,8 +10,6 @@ while i <= N:
         print(N)
         exit()
 
-    hoge = min(hoge, N)
-
     max_ = i
     for j in range(i, hoge + 1):
         fuga = j + A[j] - 1
